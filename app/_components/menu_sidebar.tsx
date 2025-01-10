@@ -53,7 +53,7 @@ export function MenuSidebar() {
                             {data.navMain.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
-                                        <a href={item.url} className="hover:bg-secondary/20 hover:text-white text-white font-[family-name:var(--font-josefin-sans)]">
+                                        <a href={item.url} className="hover:bg-accent/20 hover:text-white text-white font-[family-name:var(--font-josefin-sans)]">
                                             <item.icon />
                                             <span>{item.title}</span>
                                         </a>
@@ -64,7 +64,7 @@ export function MenuSidebar() {
                             {data.navSecondary.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
-                                        <a href={item.url} className="hover:bg-secondary/20 hover:text-white text-white font-[family-name:var(--font-josefin-sans)]">
+                                        <a href={item.url} className="hover:bg-accent/20 hover:text-white text-white font-[family-name:var(--font-josefin-sans)]">
                                             <item.icon />
                                             <span>{item.title}</span>
                                         </a>
@@ -81,7 +81,7 @@ export function MenuSidebar() {
                             {data.navThird.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton asChild>
-                                        <a href={item.url} className="hover:bg-secondary/20 hover:text-white text-white font-[family-name:var(--font-josefin-sans)]">
+                                        <a href={item.url} className="hover:bg-accent/20 hover:text-white text-white font-[family-name:var(--font-josefin-sans)]">
                                             <item.icon />
                                             <span>{item.title}</span>
                                         </a>
