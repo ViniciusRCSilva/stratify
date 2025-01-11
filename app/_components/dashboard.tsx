@@ -39,7 +39,12 @@ function calculateCardData(orders: ChartData[]) {
         .filter(data => data.date.startsWith(currentMonth))
         .reduce((sum, data) => sum + data.sales, 0);
 
-    const lastMonth = `${currentMonth.substring(0, 4)}-${String(Number(currentMonth.substring(5, 7)) - 1).padStart(2, '0')}`;
+    const currentYear = parseInt(currentMonth.substring(0, 4));
+    const currentMonthNum = parseInt(currentMonth.substring(5, 7));
+    const lastMonthYear = currentMonthNum === 1 ? currentYear - 1 : currentYear;
+    const lastMonthNum = currentMonthNum === 1 ? 12 : currentMonthNum - 1;
+    const lastMonth = `${lastMonthYear}-${String(lastMonthNum).padStart(2, '0')}`;
+    
     const lastMonthSales = orders
         .filter(data => data.date.startsWith(lastMonth))
         .reduce((sum, data) => sum + data.sales, 0);

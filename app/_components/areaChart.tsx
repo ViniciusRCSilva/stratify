@@ -51,10 +51,20 @@ export function AreaChartComponent() {
     const aggregateData = (data: ChartData[], period: TimeFilter): ChartData[] => {
         if (period === "daily") return data
 
+        // Get min and max years from the data
+        const years = data.map(item => parseInt(item.date.split("-")[0]))
+        const minYear = Math.min(...years)
+        const maxYear = Math.max(...years)
+
         const aggregated = new Map<string, { sales: number; profit: number; count: number }>()
 
         data.forEach((item) => {
             const date = new Date(item.date)
+            const year = date.getFullYear()
+
+            // Skip if year is outside our data range
+            if (year < minYear || year > maxYear) return
+
             let key = ""
 
             switch (period) {
@@ -176,7 +186,7 @@ export function AreaChartComponent() {
                                 })
                             }}
                         />
-                        <YAxis 
+                        <YAxis
                             width={80}
                             tickFormatter={(value) => `R$ ${value.toLocaleString('pt-BR', {
                                 notation: "compact",

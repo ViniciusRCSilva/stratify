@@ -2,7 +2,7 @@ import Dashboard from "../_components/dashboard";
 import { SidebarProvider, SidebarTrigger } from "../_components/ui/sidebar";
 import { MenuSidebar } from "../_components/menu_sidebar";
 import { Button } from "../_components/ui/button";
-import { BellRing, Plus } from "lucide-react";
+import { Bell, Plus } from "lucide-react";
 
 export default function Home() {
   return (
@@ -19,7 +19,7 @@ export default function Home() {
               <Plus /> Importar CSV
             </Button>
             <Button className="flex items-center" variant="outline" size="icon">
-              <BellRing />
+              <Bell />
             </Button>
           </div>
         </div>

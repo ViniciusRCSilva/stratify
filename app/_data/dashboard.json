@@ -932,8 +932,8 @@
         },
         {
             "date": "2025-01-11",
-            "sales": 10670,
-            "profit": 3213
+            "sales": 16670,
+            "profit": 4961
         }
     ],
     "products": [
@@ -941,6 +941,7 @@
             "id": "12598",
             "productName": "Mouse Gamer RGB",
             "price": 249.99,
+            "supplierCost": 87.50,
             "totalSales": 156,
             "stock": 45,
             "status": "inStock"
@@ -949,6 +950,7 @@
             "id": "12599",
             "productName": "Teclado Mecânico RGB",
             "price": 399.99,
+            "supplierCost": 140.00,
             "totalSales": 132,
             "stock": 28,
             "status": "inStock"
@@ -957,6 +959,7 @@
             "id": "12600",
             "productName": "Monitor Gaming 144Hz",
             "price": 1499.99,
+            "supplierCost": 455.00,
             "totalSales": 89,
             "stock": 0,
             "status": "outOfStock"
@@ -965,6 +968,7 @@
             "id": "12601",
             "productName": "Headset 7.1 Surround",
             "price": 299.99,
+            "supplierCost": 105.00,
             "totalSales": 178,
             "stock": 14,
             "status": "inStock"
@@ -973,6 +977,7 @@
             "id": "12602",
             "productName": "Mousepad XL RGB",
             "price": 149.99,
+            "supplierCost": 31.50,
             "totalSales": 95,
             "stock": 0,
             "status": "outOfStock"
@@ -981,6 +986,7 @@
             "id": "12603",
             "productName": "Cadeira Gamer Pro",
             "price": 899.99,
+            "supplierCost": 122.50,
             "totalSales": 67,
             "stock": 5,
             "status": "inStock"
@@ -989,6 +995,7 @@
             "id": "12604",
             "productName": "Gabinete Gamer RGB",
             "price": 399.99,
+            "supplierCost": 140.00,
             "totalSales": 45,
             "stock": 1,
             "status": "inStock"
@@ -997,6 +1004,7 @@
             "id": "12605",
             "productName": "Fonte 750W Gold",
             "price": 549.99,
+            "supplierCost": 245.00,
             "totalSales": 56,
             "stock": 8,
             "status": "inStock"
@@ -1005,6 +1013,7 @@
             "id": "12606",
             "productName": "Placa de Vídeo RTX 4060",
             "price": 2499.99,
+            "supplierCost": 455.00,
             "totalSales": 34,
             "stock": 3,
             "status": "inStock"
@@ -1013,6 +1022,7 @@
             "id": "12607",
             "productName": "Processador Ryzen 7",
             "price": 1899.99,
+            "supplierCost": 245.00,
             "totalSales": 42,
             "stock": 7,
             "status": "inStock"
@@ -1021,6 +1031,7 @@
             "id": "12608",
             "productName": "Memória RAM 32GB RGB",
             "price": 499.99,
+            "supplierCost": 87.50,
             "totalSales": 88,
             "stock": 0,
             "status": "outOfStock"
@@ -1029,6 +1040,7 @@
             "id": "12609",
             "productName": "SSD 1TB NVMe",
             "price": 599.99,
+            "supplierCost": 70.00,
             "totalSales": 145,
             "stock": 22,
             "status": "inStock"
@@ -1037,6 +1049,7 @@
             "id": "12610",
             "productName": "Water Cooler 240mm RGB",
             "price": 699.99,
+            "supplierCost": 245.00,
             "totalSales": 37,
             "stock": 4,
             "status": "inStock"
@@ -1045,6 +1058,7 @@
             "id": "12611",
             "productName": "Kit Fan RGB 120mm",
             "price": 199.99,
+            "supplierCost": 31.50,
             "totalSales": 167,
             "stock": 35,
             "status": "inStock"
@@ -1053,6 +1067,7 @@
             "id": "12612",
             "productName": "Placa-Mãe B650",
             "price": 999.99,
+            "supplierCost": 245.00,
             "totalSales": 28,
             "stock": 6,
             "status": "inStock"
@@ -1061,6 +1076,7 @@
             "id": "12613",
             "productName": "Webcam 4K",
             "price": 449.99,
+            "supplierCost": 122.50,
             "totalSales": 73,
             "stock": 0,
             "status": "outOfStock"
@@ -1069,6 +1085,7 @@
             "id": "12614",
             "productName": "Microfone Condensador USB",
             "price": 349.99,
+            "supplierCost": 105.00,
             "totalSales": 92,
             "stock": 12,
             "status": "inStock"
@@ -1077,6 +1094,7 @@
             "id": "12615",
             "productName": "Controle Xbox Elite",
             "price": 899.99,
+            "supplierCost": 140.00,
             "totalSales": 54,
             "stock": 2,
             "status": "inStock"
@@ -1085,6 +1103,7 @@
             "id": "12616",
             "productName": "Cabo HDMI 2.1 8K",
             "price": 149.99,
+            "supplierCost": 31.50,
             "totalSales": 186,
             "stock": 43,
             "status": "inStock"
@@ -1093,6 +1112,7 @@
             "id": "12617",
             "productName": "Hub USB-C 10-em-1",
             "price": 299.99,
+            "supplierCost": 105.00,
             "totalSales": 112,
             "stock": 18,
             "status": "inStock"
