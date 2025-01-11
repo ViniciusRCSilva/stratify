@@ -47,7 +47,7 @@ const sortedMonths = Object.entries(months).sort((a, b) => a[0].localeCompare(b[
 
 const getAvailableYears = () => {
     const years = new Set<string>()
-    dashboardData.chartData.forEach(item => {
+    dashboardData.orders.forEach(item => {
         const year = item.date.split("-")[0]
         years.add(year)
     })
@@ -68,7 +68,7 @@ export function BarChartComponent() {
     const [endMonth, setEndMonth] = useState<string>("12")
 
     const calculateTotalSales = (year: string, startMonth: string, endMonth: string) => {
-        return dashboardData.chartData.reduce((total, item) => {
+        return dashboardData.orders.reduce((total, item) => {
             const [itemYear, itemMonth] = item.date.split("-")
             if (itemYear === year && itemMonth >= startMonth && itemMonth <= endMonth) {
                 return total + item.sales
@@ -93,7 +93,7 @@ export function BarChartComponent() {
         }
     }
 
-    const filteredChartData = dashboardData.chartData.reduce((acc, item) => {
+    const filteredChartData = dashboardData.orders.reduce((acc, item) => {
         const [year, month] = item.date.split("-")
 
         if (year === selectedYear && month >= startMonth && month <= endMonth) {

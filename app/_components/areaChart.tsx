@@ -90,7 +90,7 @@ export function AreaChartComponent() {
         })).sort((a, b) => a.date.localeCompare(b.date))
     }
 
-    const chartData = aggregateData(dashboardData.chartData, selectedPeriod)
+    const chartData = aggregateData(dashboardData.orders, selectedPeriod)
 
     return (
         <Card>

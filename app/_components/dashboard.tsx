@@ -21,9 +21,9 @@ async function getProductsData(): Promise<ProductSales[]> {
     })) as ProductSales[];
 }
 
-function calculateCardData(chartData: ChartData[]) {
-    const lastSale = chartData[chartData.length - 1];
-    const yesterday = chartData[chartData.length - 2];
+function calculateCardData(orders: ChartData[]) {
+    const lastSale = orders[orders.length - 1];
+    const yesterday = orders[orders.length - 2];
 
     const currentDate = new Date().toISOString().split('T')[0];
 
@@ -35,12 +35,12 @@ function calculateCardData(chartData: ChartData[]) {
 
     // Calculate monthly growth
     const currentMonth = currentDate.substring(0, 7); // Gets YYYY-MM
-    const currentMonthSales = chartData
+    const currentMonthSales = orders
         .filter(data => data.date.startsWith(currentMonth))
         .reduce((sum, data) => sum + data.sales, 0);
 
     const lastMonth = `${currentMonth.substring(0, 4)}-${String(Number(currentMonth.substring(5, 7)) - 1).padStart(2, '0')}`;
-    const lastMonthSales = chartData
+    const lastMonthSales = orders
         .filter(data => data.date.startsWith(lastMonth))
         .reduce((sum, data) => sum + data.sales, 0);
 
@@ -69,7 +69,7 @@ function calculateCardData(chartData: ChartData[]) {
 
 export default async function Dashboard() {
     const data = await getProductsData();
-    const cards = calculateCardData(dashboardData.chartData);
+    const cards = calculateCardData(dashboardData.orders);
 
     return (
         <>
