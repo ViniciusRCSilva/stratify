@@ -1,0 +1,1101 @@
+{
+    "chartData": [
+        {
+            "date": "2023-01-01",
+            "sales": 10450,
+            "profit": 3135
+        },
+        {
+            "date": "2023-01-15",
+            "sales": 12350,
+            "profit": 3705
+        },
+        {
+            "date": "2023-02-01",
+            "sales": 11670,
+            "profit": 3501
+        },
+        {
+            "date": "2023-02-15",
+            "sales": 13560,
+            "profit": 4068
+        },
+        {
+            "date": "2023-03-01",
+            "sales": 14670,
+            "profit": 4401
+        },
+        {
+            "date": "2023-03-15",
+            "sales": 15870,
+            "profit": 4761
+        },
+        {
+            "date": "2023-04-01",
+            "sales": 16900,
+            "profit": 5070
+        },
+        {
+            "date": "2023-04-15",
+            "sales": 18450,
+            "profit": 5535
+        },
+        {
+            "date": "2023-05-01",
+            "sales": 19900,
+            "profit": 5970
+        },
+        {
+            "date": "2023-05-15",
+            "sales": 21670,
+            "profit": 6501
+        },
+        {
+            "date": "2023-06-01",
+            "sales": 23450,
+            "profit": 7035
+        },
+        {
+            "date": "2023-06-15",
+            "sales": 25900,
+            "profit": 7770
+        },
+        {
+            "date": "2023-07-01",
+            "sales": 27670,
+            "profit": 8301
+        },
+        {
+            "date": "2023-07-15",
+            "sales": 29340,
+            "profit": 8802
+        },
+        {
+            "date": "2023-08-01",
+            "sales": 31900,
+            "profit": 9570
+        },
+        {
+            "date": "2023-08-15",
+            "sales": 33670,
+            "profit": 10101
+        },
+        {
+            "date": "2023-09-01",
+            "sales": 35450,
+            "profit": 10635
+        },
+        {
+            "date": "2023-09-15",
+            "sales": 37900,
+            "profit": 11370
+        },
+        {
+            "date": "2023-10-01",
+            "sales": 39670,
+            "profit": 11901
+        },
+        {
+            "date": "2023-10-15",
+            "sales": 41340,
+            "profit": 12402
+        },
+        {
+            "date": "2023-11-01",
+            "sales": 43900,
+            "profit": 13170
+        },
+        {
+            "date": "2023-11-15",
+            "sales": 45670,
+            "profit": 13701
+        },
+        {
+            "date": "2023-12-01",
+            "sales": 47450,
+            "profit": 14235
+        },
+        {
+            "date": "2023-12-15",
+            "sales": 49900,
+            "profit": 14970
+        },
+        {
+            "date": "2023-12-31",
+            "sales": 52340,
+            "profit": 15702
+        },
+        {
+            "date": "2024-04-01",
+            "sales": 12450,
+            "profit": 3735
+        },
+        {
+            "date": "2024-04-02",
+            "sales": 8970,
+            "profit": 2780
+        },
+        {
+            "date": "2024-04-03",
+            "sales": 15680,
+            "profit": 4704
+        },
+        {
+            "date": "2024-04-04",
+            "sales": 22420,
+            "profit": 6726
+        },
+        {
+            "date": "2024-04-05",
+            "sales": 18350,
+            "profit": 5505
+        },
+        {
+            "date": "2024-04-06",
+            "sales": 9870,
+            "profit": 2961
+        },
+        {
+            "date": "2024-04-07",
+            "sales": 7450,
+            "profit": 2235
+        },
+        {
+            "date": "2024-04-08",
+            "sales": 19800,
+            "profit": 5940
+        },
+        {
+            "date": "2024-04-09",
+            "sales": 25600,
+            "profit": 7680
+        },
+        {
+            "date": "2024-04-10",
+            "sales": 16780,
+            "profit": 5034
+        },
+        {
+            "date": "2024-04-11",
+            "sales": 14320,
+            "profit": 4296
+        },
+        {
+            "date": "2024-04-12",
+            "sales": 11890,
+            "profit": 3567
+        },
+        {
+            "date": "2024-04-13",
+            "sales": 21450,
+            "profit": 6435
+        },
+        {
+            "date": "2024-04-14",
+            "sales": 17680,
+            "profit": 5304
+        },
+        {
+            "date": "2024-04-15",
+            "sales": 23450,
+            "profit": 7035
+        },
+        {
+            "date": "2024-04-16",
+            "sales": 19870,
+            "profit": 5961
+        },
+        {
+            "date": "2024-04-17",
+            "sales": 26780,
+            "profit": 8034
+        },
+        {
+            "date": "2024-04-18",
+            "sales": 22340,
+            "profit": 6702
+        },
+        {
+            "date": "2024-04-19",
+            "sales": 18790,
+            "profit": 5637
+        },
+        {
+            "date": "2024-04-20",
+            "sales": 8950,
+            "profit": 2685
+        },
+        {
+            "date": "2024-04-21",
+            "sales": 7890,
+            "profit": 2367
+        },
+        {
+            "date": "2024-04-22",
+            "sales": 16780,
+            "profit": 5034
+        },
+        {
+            "date": "2024-04-23",
+            "sales": 24560,
+            "profit": 7368
+        },
+        {
+            "date": "2024-04-24",
+            "sales": 19870,
+            "profit": 5961
+        },
+        {
+            "date": "2024-04-25",
+            "sales": 15680,
+            "profit": 4704
+        },
+        {
+            "date": "2024-04-26",
+            "sales": 12450,
+            "profit": 3735
+        },
+        {
+            "date": "2024-04-27",
+            "sales": 28900,
+            "profit": 8670
+        },
+        {
+            "date": "2024-04-28",
+            "sales": 9870,
+            "profit": 2961
+        },
+        {
+            "date": "2024-04-29",
+            "sales": 17890,
+            "profit": 5367
+        },
+        {
+            "date": "2024-04-30",
+            "sales": 25670,
+            "profit": 7701
+        },
+        {
+            "date": "2024-05-01",
+            "sales": 21450,
+            "profit": 6435
+        },
+        {
+            "date": "2024-05-02",
+            "sales": 18790,
+            "profit": 5637
+        },
+        {
+            "date": "2024-05-03",
+            "sales": 15680,
+            "profit": 4704
+        },
+        {
+            "date": "2024-05-04",
+            "sales": 27890,
+            "profit": 8367
+        },
+        {
+            "date": "2024-05-05",
+            "sales": 32450,
+            "profit": 9735
+        },
+        {
+            "date": "2024-05-06",
+            "sales": 28970,
+            "profit": 8691
+        },
+        {
+            "date": "2024-05-07",
+            "sales": 19870,
+            "profit": 5961
+        },
+        {
+            "date": "2024-05-08",
+            "sales": 12450,
+            "profit": 3735
+        },
+        {
+            "date": "2024-05-09",
+            "sales": 16780,
+            "profit": 5034
+        },
+        {
+            "date": "2024-05-10",
+            "sales": 22340,
+            "profit": 6702
+        },
+        {
+            "date": "2024-05-11",
+            "sales": 19870,
+            "profit": 5961
+        },
+        {
+            "date": "2024-05-12",
+            "sales": 15680,
+            "profit": 4704
+        },
+        {
+            "date": "2024-05-13",
+            "sales": 11890,
+            "profit": 3567
+        },
+        {
+            "date": "2024-05-14",
+            "sales": 29870,
+            "profit": 8961
+        },
+        {
+            "date": "2024-05-15",
+            "sales": 34560,
+            "profit": 10368
+        },
+        {
+            "date": "2024-05-16",
+            "sales": 28790,
+            "profit": 8637
+        },
+        {
+            "date": "2024-05-17",
+            "sales": 35670,
+            "profit": 10701
+        },
+        {
+            "date": "2024-05-18",
+            "sales": 22340,
+            "profit": 6702
+        },
+        {
+            "date": "2024-05-19",
+            "sales": 16780,
+            "profit": 5034
+        },
+        {
+            "date": "2024-05-20",
+            "sales": 12450,
+            "profit": 3735
+        },
+        {
+            "date": "2024-05-21",
+            "sales": 8970,
+            "profit": 2691
+        },
+        {
+            "date": "2024-05-22",
+            "sales": 7890,
+            "profit": 2367
+        },
+        {
+            "date": "2024-05-23",
+            "sales": 18790,
+            "profit": 5637
+        },
+        {
+            "date": "2024-05-24",
+            "sales": 22340,
+            "profit": 6702
+        },
+        {
+            "date": "2024-05-25",
+            "sales": 16780,
+            "profit": 5034
+        },
+        {
+            "date": "2024-05-26",
+            "sales": 12450,
+            "profit": 3735
+        },
+        {
+            "date": "2024-05-27",
+            "sales": 31890,
+            "profit": 9567
+        },
+        {
+            "date": "2024-05-28",
+            "sales": 18790,
+            "profit": 5637
+        },
+        {
+            "date": "2024-05-29",
+            "sales": 8970,
+            "profit": 2691
+        },
+        {
+            "date": "2024-05-30",
+            "sales": 25670,
+            "profit": 7701
+        },
+        {
+            "date": "2024-05-31",
+            "sales": 15680,
+            "profit": 4704
+        },
+        {
+            "date": "2024-06-01",
+            "sales": 12450,
+            "profit": 3735
+        },
+        {
+            "date": "2024-06-02",
+            "sales": 32450,
+            "profit": 9735
+        },
+        {
+            "date": "2024-06-03",
+            "sales": 9870,
+            "profit": 2961
+        },
+        {
+            "date": "2024-06-04",
+            "sales": 28970,
+            "profit": 8691
+        },
+        {
+            "date": "2024-06-05",
+            "sales": 8970,
+            "profit": 2691
+        },
+        {
+            "date": "2024-06-06",
+            "sales": 22340,
+            "profit": 6702
+        },
+        {
+            "date": "2024-06-07",
+            "sales": 25670,
+            "profit": 7701
+        },
+        {
+            "date": "2024-06-08",
+            "sales": 28790,
+            "profit": 8637
+        },
+        {
+            "date": "2024-06-09",
+            "sales": 32450,
+            "profit": 9735
+        },
+        {
+            "date": "2024-06-10",
+            "sales": 12450,
+            "profit": 3735
+        },
+        {
+            "date": "2024-06-11",
+            "sales": 8970,
+            "profit": 2691
+        },
+        {
+            "date": "2024-06-12",
+            "sales": 35670,
+            "profit": 10701
+        },
+        {
+            "date": "2024-06-13",
+            "sales": 7890,
+            "profit": 2367
+        },
+        {
+            "date": "2024-06-14",
+            "sales": 26780,
+            "profit": 8034
+        },
+        {
+            "date": "2024-06-15",
+            "sales": 29870,
+            "profit": 8961
+        },
+        {
+            "date": "2024-06-16",
+            "sales": 24560,
+            "profit": 7368
+        },
+        {
+            "date": "2024-06-17",
+            "sales": 31890,
+            "profit": 9567
+        },
+        {
+            "date": "2024-06-18",
+            "sales": 18790,
+            "profit": 5637
+        },
+        {
+            "date": "2024-06-19",
+            "sales": 22340,
+            "profit": 6702
+        },
+        {
+            "date": "2024-06-20",
+            "sales": 28900,
+            "profit": 8670
+        },
+        {
+            "date": "2024-06-21",
+            "sales": 19870,
+            "profit": 5961
+        },
+        {
+            "date": "2024-06-22",
+            "sales": 25670,
+            "profit": 7701
+        },
+        {
+            "date": "2024-06-23",
+            "sales": 32450,
+            "profit": 9735
+        },
+        {
+            "date": "2024-06-24",
+            "sales": 15680,
+            "profit": 4704
+        },
+        {
+            "date": "2024-06-25",
+            "sales": 18790,
+            "profit": 5637
+        },
+        {
+            "date": "2024-06-26",
+            "sales": 28970,
+            "profit": 8691
+        },
+        {
+            "date": "2024-06-27",
+            "sales": 32450,
+            "profit": 9735
+        },
+        {
+            "date": "2024-06-28",
+            "sales": 19870,
+            "profit": 5961
+        },
+        {
+            "date": "2024-06-29",
+            "sales": 12450,
+            "profit": 3735
+        },
+        {
+            "date": "2024-06-30",
+            "sales": 28900,
+            "profit": 8670
+        },
+        {
+            "date": "2024-07-01",
+            "sales": 22340,
+            "profit": 6702
+        },
+        {
+            "date": "2024-07-02",
+            "sales": 25670,
+            "profit": 7701
+        },
+        {
+            "date": "2024-07-03",
+            "sales": 19870,
+            "profit": 5961
+        },
+        {
+            "date": "2024-07-04",
+            "sales": 28900,
+            "profit": 8670
+        },
+        {
+            "date": "2024-07-05",
+            "sales": 32450,
+            "profit": 9735
+        },
+        {
+            "date": "2024-07-06",
+            "sales": 25670,
+            "profit": 7701
+        },
+        {
+            "date": "2024-07-07",
+            "sales": 18790,
+            "profit": 5637
+        },
+        {
+            "date": "2024-07-08",
+            "sales": 22340,
+            "profit": 6702
+        },
+        {
+            "date": "2024-07-09",
+            "sales": 28900,
+            "profit": 8670
+        },
+        {
+            "date": "2024-07-10",
+            "sales": 32450,
+            "profit": 9735
+        },
+        {
+            "date": "2024-07-11",
+            "sales": 25670,
+            "profit": 7701
+        },
+        {
+            "date": "2024-07-12",
+            "sales": 19870,
+            "profit": 5961
+        },
+        {
+            "date": "2024-07-13",
+            "sales": 28900,
+            "profit": 8670
+        },
+        {
+            "date": "2024-07-14",
+            "sales": 22340,
+            "profit": 6702
+        },
+        {
+            "date": "2024-07-15",
+            "sales": 32450,
+            "profit": 9735
+        },
+        {
+            "date": "2024-08-01",
+            "sales": 28900,
+            "profit": 8670
+        },
+        {
+            "date": "2024-08-15",
+            "sales": 35670,
+            "profit": 10701
+        },
+        {
+            "date": "2024-09-01",
+            "sales": 32450,
+            "profit": 9735
+        },
+        {
+            "date": "2024-09-15",
+            "sales": 38900,
+            "profit": 11670
+        },
+        {
+            "date": "2024-10-01",
+            "sales": 35670,
+            "profit": 10701
+        },
+        {
+            "date": "2024-10-15",
+            "sales": 42340,
+            "profit": 12702
+        },
+        {
+            "date": "2024-11-01",
+            "sales": 38900,
+            "profit": 11670
+        },
+        {
+            "date": "2024-11-15",
+            "sales": 45670,
+            "profit": 13701
+        },
+        {
+            "date": "2024-11-25",
+            "sales": 52450,
+            "profit": 15735
+        },
+        {
+            "date": "2024-11-26",
+            "sales": 58900,
+            "profit": 17670
+        },
+        {
+            "date": "2024-11-27",
+            "sales": 55670,
+            "profit": 16701
+        },
+        {
+            "date": "2024-11-28",
+            "sales": 62340,
+            "profit": 18702
+        },
+        {
+            "date": "2024-11-29",
+            "sales": 68900,
+            "profit": 20670
+        },
+        {
+            "date": "2024-11-30",
+            "sales": 48900,
+            "profit": 14670
+        },
+        {
+            "date": "2024-12-01",
+            "sales": 42340,
+            "profit": 12702
+        },
+        {
+            "date": "2024-12-02",
+            "sales": 45670,
+            "profit": 13701
+        },
+        {
+            "date": "2024-12-03",
+            "sales": 48900,
+            "profit": 14670
+        },
+        {
+            "date": "2024-12-04",
+            "sales": 52340,
+            "profit": 15702
+        },
+        {
+            "date": "2024-12-05",
+            "sales": 55670,
+            "profit": 16701
+        },
+        {
+            "date": "2024-12-06",
+            "sales": 58900,
+            "profit": 17670
+        },
+        {
+            "date": "2024-12-07",
+            "sales": 62340,
+            "profit": 18702
+        },
+        {
+            "date": "2024-12-08",
+            "sales": 65670,
+            "profit": 19701
+        },
+        {
+            "date": "2024-12-09",
+            "sales": 68900,
+            "profit": 20670
+        },
+        {
+            "date": "2024-12-10",
+            "sales": 72340,
+            "profit": 21702
+        },
+        {
+            "date": "2024-12-11",
+            "sales": 75670,
+            "profit": 22701
+        },
+        {
+            "date": "2024-12-12",
+            "sales": 78900,
+            "profit": 23670
+        },
+        {
+            "date": "2024-12-13",
+            "sales": 82340,
+            "profit": 24702
+        },
+        {
+            "date": "2024-12-14",
+            "sales": 85670,
+            "profit": 25701
+        },
+        {
+            "date": "2024-12-15",
+            "sales": 88900,
+            "profit": 26670
+        },
+        {
+            "date": "2024-12-16",
+            "sales": 92340,
+            "profit": 27702
+        },
+        {
+            "date": "2024-12-17",
+            "sales": 95670,
+            "profit": 28701
+        },
+        {
+            "date": "2024-12-18",
+            "sales": 98900,
+            "profit": 29670
+        },
+        {
+            "date": "2024-12-19",
+            "sales": 102340,
+            "profit": 30702
+        },
+        {
+            "date": "2024-12-20",
+            "sales": 105670,
+            "profit": 31701
+        },
+        {
+            "date": "2024-12-21",
+            "sales": 108900,
+            "profit": 32670
+        },
+        {
+            "date": "2024-12-22",
+            "sales": 112340,
+            "profit": 33702
+        },
+        {
+            "date": "2024-12-23",
+            "sales": 115670,
+            "profit": 34701
+        },
+        {
+            "date": "2024-12-24",
+            "sales": 125670,
+            "profit": 37701
+        },
+        {
+            "date": "2024-12-25",
+            "sales": 45670,
+            "profit": 13701
+        },
+        {
+            "date": "2024-12-26",
+            "sales": 68900,
+            "profit": 20670
+        },
+        {
+            "date": "2024-12-27",
+            "sales": 72340,
+            "profit": 21702
+        },
+        {
+            "date": "2024-12-28",
+            "sales": 65670,
+            "profit": 19701
+        },
+        {
+            "date": "2024-12-29",
+            "sales": 58900,
+            "profit": 17670
+        },
+        {
+            "date": "2024-12-30",
+            "sales": 52340,
+            "profit": 15702
+        },
+        {
+            "date": "2024-12-31",
+            "sales": 48900,
+            "profit": 14670
+        },
+        {
+            "date": "2025-01-01",
+            "sales": 32340,
+            "profit": 9702
+        },
+        {
+            "date": "2025-01-02",
+            "sales": 38900,
+            "profit": 11670
+        },
+        {
+            "date": "2025-01-03",
+            "sales": 42340,
+            "profit": 12702
+        },
+        {
+            "date": "2025-01-04",
+            "sales": 45670,
+            "profit": 13701
+        },
+        {
+            "date": "2025-01-05",
+            "sales": 48900,
+            "profit": 14670
+        },
+        {
+            "date": "2025-01-06",
+            "sales": 52340,
+            "profit": 15702
+        },
+        {
+            "date": "2025-01-07",
+            "sales": 55670,
+            "profit": 16701
+        },
+        {
+            "date": "2025-01-08",
+            "sales": 58900,
+            "profit": 17670
+        },
+        {
+            "date": "2025-01-09",
+            "sales": 62340,
+            "profit": 18702
+        },
+        {
+            "date": "2025-01-10",
+            "sales": 15420,
+            "profit": 4626
+        },
+        {
+            "date": "2025-01-11",
+            "sales": 10670,
+            "profit": 3213
+        }
+    ],
+    "products": [
+        {
+            "id": "12598",
+            "productName": "Mouse Gamer RGB",
+            "price": 249.99,
+            "totalSales": 156,
+            "stock": 45,
+            "status": "inStock"
+        },
+        {
+            "id": "12599",
+            "productName": "Teclado Mecânico RGB",
+            "price": 399.99,
+            "totalSales": 132,
+            "stock": 28,
+            "status": "inStock"
+        },
+        {
+            "id": "12600",
+            "productName": "Monitor Gaming 144Hz",
+            "price": 1499.99,
+            "totalSales": 89,
+            "stock": 0,
+            "status": "outOfStock"
+        },
+        {
+            "id": "12601",
+            "productName": "Headset 7.1 Surround",
+            "price": 299.99,
+            "totalSales": 178,
+            "stock": 14,
+            "status": "inStock"
+        },
+        {
+            "id": "12602",
+            "productName": "Mousepad XL RGB",
+            "price": 149.99,
+            "totalSales": 95,
+            "stock": 0,
+            "status": "outOfStock"
+        },
+        {
+            "id": "12603",
+            "productName": "Cadeira Gamer Pro",
+            "price": 899.99,
+            "totalSales": 67,
+            "stock": 5,
+            "status": "inStock"
+        },
+        {
+            "id": "12604",
+            "productName": "Gabinete Gamer RGB",
+            "price": 399.99,
+            "totalSales": 45,
+            "stock": 1,
+            "status": "inStock"
+        },
+        {
+            "id": "12605",
+            "productName": "Fonte 750W Gold",
+            "price": 549.99,
+            "totalSales": 56,
+            "stock": 8,
+            "status": "inStock"
+        },
+        {
+            "id": "12606",
+            "productName": "Placa de Vídeo RTX 4060",
+            "price": 2499.99,
+            "totalSales": 34,
+            "stock": 3,
+            "status": "inStock"
+        },
+        {
+            "id": "12607",
+            "productName": "Processador Ryzen 7",
+            "price": 1899.99,
+            "totalSales": 42,
+            "stock": 7,
+            "status": "inStock"
+        },
+        {
+            "id": "12608",
+            "productName": "Memória RAM 32GB RGB",
+            "price": 499.99,
+            "totalSales": 88,
+            "stock": 0,
+            "status": "outOfStock"
+        },
+        {
+            "id": "12609",
+            "productName": "SSD 1TB NVMe",
+            "price": 599.99,
+            "totalSales": 145,
+            "stock": 22,
+            "status": "inStock"
+        },
+        {
+            "id": "12610",
+            "productName": "Water Cooler 240mm RGB",
+            "price": 699.99,
+            "totalSales": 37,
+            "stock": 4,
+            "status": "inStock"
+        },
+        {
+            "id": "12611",
+            "productName": "Kit Fan RGB 120mm",
+            "price": 199.99,
+            "totalSales": 167,
+            "stock": 35,
+            "status": "inStock"
+        },
+        {
+            "id": "12612",
+            "productName": "Placa-Mãe B650",
+            "price": 999.99,
+            "totalSales": 28,
+            "stock": 6,
+            "status": "inStock"
+        },
+        {
+            "id": "12613",
+            "productName": "Webcam 4K",
+            "price": 449.99,
+            "totalSales": 73,
+            "stock": 0,
+            "status": "outOfStock"
+        },
+        {
+            "id": "12614",
+            "productName": "Microfone Condensador USB",
+            "price": 349.99,
+            "totalSales": 92,
+            "stock": 12,
+            "status": "inStock"
+        },
+        {
+            "id": "12615",
+            "productName": "Controle Xbox Elite",
+            "price": 899.99,
+            "totalSales": 54,
+            "stock": 2,
+            "status": "inStock"
+        },
+        {
+            "id": "12616",
+            "productName": "Cabo HDMI 2.1 8K",
+            "price": 149.99,
+            "totalSales": 186,
+            "stock": 43,
+            "status": "inStock"
+        },
+        {
+            "id": "12617",
+            "productName": "Hub USB-C 10-em-1",
+            "price": 299.99,
+            "totalSales": 112,
+            "stock": 18,
+            "status": "inStock"
+        }
+    ]
+}

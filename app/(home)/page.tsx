@@ -1,7 +1,31 @@
+import Dashboard from "../_components/dashboard";
+import { SidebarProvider, SidebarTrigger } from "../_components/ui/sidebar";
+import { MenuSidebar } from "../_components/menu_sidebar";
+import { Button } from "../_components/ui/button";
+import { BellRing, Plus } from "lucide-react";
+
 export default function Home() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-josefin-sans)]">
+    <SidebarProvider className="font-[family-name:var(--font-josefin-sans)]">
+      <MenuSidebar />
+      <div className="w-full flex flex-col gap-4 px-10 pb-10">
+        <div className="sticky top-0 pt-10 pb-4 flex items-center justify-between gap-2 bg-background/50 backdrop-blur z-50">
+          <div className="flex items-center gap-1">
+            <SidebarTrigger />
+            <h1 className="text-2xl md:text-3xl font-thin">Dashboard</h1>
+          </div>
+          <div className="flex gap-2">
+            <Button className="flex items-center gap-2">
+              <Plus /> Importar CSV
+            </Button>
+            <Button className="flex items-center" variant="outline" size="icon">
+              <BellRing />
+            </Button>
+          </div>
+        </div>
 
-    </div>
+        <Dashboard />
+      </div>
+    </SidebarProvider>
   );
 }
