@@ -1,0 +1,135 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum PLAN {
+  FREE
+  PRO
+}
+
+enum PRODUCT_STATUS {
+  IN_STOCK
+  OUT_OF_STOCK
+}
+
+enum ORDER_STATUS {
+  PENDING
+  COMPLETED
+  CANCELLED
+}
+
+enum INVOICE_STATUS {
+  PENDING
+  PAID
+  OVERDUE
+}
+
+enum PAYMENT_METHOD {
+  CREDIT_CARD
+  DEBIT_CARD
+  CASH
+  PIX
+}
+
+model User {
+  id    String @id @default(uuid())
+  email String @unique
+  name  String
+  plan  PLAN   @default(FREE)
+
+  @@map("users")
+}
+
+model Product {
+  id         String         @id @default(uuid())
+  name       String
+  category   String
+  unitPrice  Float
+  status     PRODUCT_STATUS @default(IN_STOCK)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+  orderItems OrderItem[]
+  inventory  Inventory[]
+
+  @@index([category])
+  @@map("products")
+}
+
+model Inventory {
+  id              String   @id @default(uuid())
+  productId       String
+  unitCost        Float
+  stockQuantity   Int
+  location        String
+  lastRestockedAt DateTime @default(now())
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("inventories")
+}
+
+model OrderItem {
+  id        String @id @default(uuid())
+  orderId   String
+  productId String
+  quantity  Int
+
+  product Product @relation(fields: [productId], references: [id])
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("order_items")
+}
+
+model Order {
+  id        String       @id @default(uuid())
+  clientId  String
+  status    ORDER_STATUS @default(PENDING)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  products  OrderItem[]
+  Invoice   Invoice[]
+
+  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+
+  @@map("orders")
+}
+
+model Client {
+  id        String    @id @default(uuid())
+  name      String
+  email     String    @unique
+  phone     String?
+  orders    Order[]
+  invoices  Invoice[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@map("clients")
+}
+
+model Invoice {
+  id            String         @id @default(uuid())
+  clientId      String
+  orderId       String
+  totalAmount   Float
+  status        INVOICE_STATUS @default(PENDING)
+  discount      Float          @default(0)
+  tax           Float          @default(0)
+  issueDate     DateTime       @default(now())
+  dueDate       DateTime
+  paymentMethod PAYMENT_METHOD @default(CASH)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  client Client @relation(fields: [clientId], references: [id])
+  order  Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("invoices")
+}
