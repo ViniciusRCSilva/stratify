@@ -2,10 +2,11 @@ import { AreaChartComponent } from "./areaChart";
 import { BarChartComponent } from "./barChart";
 import { DataTableSales } from "./dataTableSales";
 import { StatisticCard } from "./statisticCard";
-import { columns, ProductSales } from "./columns/productSales";
+import { columns } from "./columns/productSales";
 import { Separator } from "./ui/separator";
 import { AlertStockCard } from "./alertStockCard";
 import dashboardData from "../_data/dashboard.json";
+import { getProductsWithSales } from "../_actions/product";
 
 interface ChartData {
     date: string;
@@ -13,12 +14,8 @@ interface ChartData {
     profit: number;
 }
 
-async function getProductsData(): Promise<ProductSales[]> {
-    const products = dashboardData.products;
-    return products.map(product => ({
-        ...product,
-        status: product.status === "outOfStock" ? "outOfStock" : "inStock"
-    })) as ProductSales[];
+async function getProductsData() {
+    return await getProductsWithSales();
 }
 
 function calculateCardData(orders: ChartData[]) {
@@ -44,7 +41,7 @@ function calculateCardData(orders: ChartData[]) {
     const lastMonthYear = currentMonthNum === 1 ? currentYear - 1 : currentYear;
     const lastMonthNum = currentMonthNum === 1 ? 12 : currentMonthNum - 1;
     const lastMonth = `${lastMonthYear}-${String(lastMonthNum).padStart(2, '0')}`;
-    
+
     const lastMonthSales = orders
         .filter(data => data.date.startsWith(lastMonth))
         .reduce((sum, data) => sum + data.sales, 0);
@@ -99,9 +96,9 @@ export default async function Dashboard() {
                         <h1 className="text-2xl">Produtos mais vendidos</h1>
                         <p className="text-muted-foreground">Principais produtos mais vendidos</p>
                     </div>
-                    <DataTableSales columns={columns} data={data.sort((a, b) => b.totalSales - a.totalSales).slice(0, 7)} />
+                    <DataTableSales columns={columns} data={data.sort((a, b) => b.totalSales - a.totalSales).slice(0, 5)} />
                 </div>
-                <AlertStockCard lowStock={data.sort((a, b) => a.stock - b.stock).filter((product) => product.stock <= 10).slice(0, 5)} />
+                <AlertStockCard lowStock={data.sort((a, b) => a.stock - b.stock).filter((product) => product.stock <= 30).slice(0, 5)} />
             </div>
         </>
     );
