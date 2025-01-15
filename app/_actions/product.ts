@@ -51,7 +51,7 @@ export const updateProductStatusBasedOnStock = async (productId: string) => {
     });
 };
 
-/* Get all products with their sales data */
+/* Retorna todos os produtos com suas vendas */
 export const getProductsWithSales = async () => {
     const products = await db.product.findMany({
         include: {

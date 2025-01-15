@@ -28,7 +28,7 @@ export function AlertStockCard({ lowStock }: AlertStockCardProps) {
                                         {item.productName}
                                     </p>
                                     <p className="text-xs sm:text-sm text-muted-foreground">
-                                        Quantidade restante: {item.stock} {item.stock === 1 ? "unidade" : "unidades"}
+                                        Quantidade restante: <span className="font-[family-name:var(--font-manrope)] font-semibold">{item.stock}</span> {item.stock === 1 ? "unidade" : "unidades"}
                                     </p>
                                 </div>
                                 <Badge variant="destructive" className="self-start sm:self-center">

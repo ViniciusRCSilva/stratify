@@ -3,8 +3,9 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { Badge } from "../ui/badge"
 import { getProductsWithSales } from "@/app/_actions/product"
+import { CellId } from "./_components/cellId"
 
-// This type is used to define the shape of our data.
+/* Interface para representar os dados dos produtos */
 export type Product = {
     id: string;
     productName: string;
@@ -19,7 +20,7 @@ export const columns: ColumnDef<Product>[] = [
         accessorKey: "id",
         header: "ID",
         cell: ({ row }) => {
-            return <div className="w-20 truncate font-medium">#{row.getValue("id")}</div>
+            return <CellId row={row} />
         },
     },
     {
@@ -38,21 +39,21 @@ export const columns: ColumnDef<Product>[] = [
                 style: "currency",
                 currency: "BRL",
             }).format(price)
-            return formatted
+            return <span className="font-[family-name:var(--font-manrope)]">{formatted}</span>
         },
     },
     {
         accessorKey: "totalSales",
         header: "Vendas",
         cell: ({ row }) => {
-            return row.getValue("totalSales")
+            return <span className="font-[family-name:var(--font-manrope)]">{row.getValue("totalSales")}</span>
         },
     },
     {
         accessorKey: "stock",
         header: "Estoque",
         cell: ({ row }) => {
-            return row.getValue("stock")
+            return <span className="font-[family-name:var(--font-manrope)]">{row.getValue("stock")}</span>
         },
     },
     {
