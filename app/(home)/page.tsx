@@ -2,7 +2,7 @@ import Dashboard from "../_components/dashboard";
 import { SidebarProvider, SidebarTrigger } from "../_components/ui/sidebar";
 import { MenuSidebar } from "../_components/menu_sidebar";
 import { Button } from "../_components/ui/button";
-import { Bell, Plus } from "lucide-react";
+import { Bell } from "lucide-react";
 
 export default function Home() {
   return (
@@ -14,14 +14,9 @@ export default function Home() {
             <SidebarTrigger />
             <h1 className="text-2xl md:text-3xl font-thin">Dashboard</h1>
           </div>
-          <div className="flex gap-2">
-            <Button className="flex items-center gap-2">
-              <Plus /> Importar CSV
-            </Button>
-            <Button className="flex items-center" variant="outline" size="icon">
-              <Bell />
-            </Button>
-          </div>
+          <Button className="flex items-center" variant="outline" size="icon">
+            <Bell />
+          </Button>
         </div>
 
         <Dashboard />
