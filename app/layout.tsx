@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Josefin_Sans, Manrope } from "next/font/google";
 import "./globals.css";
+import { SidebarProvider } from "./_components/ui/sidebar";
+import { MenuSidebar } from "./_components/menu_sidebar";
 
 const josefinSans = Josefin_Sans({
   variable: "--font-josefin-sans",
@@ -14,20 +16,23 @@ const manrope = Manrope({
 
 export const metadata: Metadata = {
   title: "Stratify",
-  description: "Gerenciamento financeiro pessoal",
+  description: "Stratify - Gestão de Estoque",
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en" className="dark">
       <body
         className={`${josefinSans.variable} ${manrope.variable} antialiased bg-background`}
       >
-        {children}
+        <SidebarProvider className="font-[family-name:var(--font-josefin-sans)]">
+          <MenuSidebar />
+          {children}
+        </SidebarProvider>
       </body>
     </html>
   );

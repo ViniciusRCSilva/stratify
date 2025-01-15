@@ -24,8 +24,8 @@ const data = {
         avatar: "https://github.com/shadcn.png",
     },
     navMain: [
-        { title: "Visão Geral", url: "#", icon: Home },
-        { title: "Inventário", url: "#", icon: Building2 },
+        { title: "Visão Geral", url: "/", icon: Home },
+        { title: "Inventário", url: "/inventory", icon: Building2 },
     ],
     navSecondary: [
         { title: "Produtos", url: "#", icon: Grid2X2 },
@@ -47,7 +47,7 @@ export function MenuSidebar() {
                     <SidebarMenu>
                         <SidebarMenuItem>
                             <SidebarMenuButton asChild>
-                                <Link href="/" className="hover:bg-accent/20 text-white font-[family-name:var(--font-josefin-sans)]">
+                                <Link href="/" className="h-fit hover:bg-accent/20 text-white font-[family-name:var(--font-josefin-sans)]">
                                     <Image src="/logo.svg" alt="Logo" width={50} height={50} />
                                     <h1 className="text-2xl font-[family-name:var(--font-josefin-sans)] font-thin text-white">STRATIFY</h1>
                                 </Link>
