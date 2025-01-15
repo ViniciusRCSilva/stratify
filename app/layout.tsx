@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Josefin_Sans, Manrope } from "next/font/google";
 import "./globals.css";
 import { SidebarProvider } from "./_components/ui/sidebar";
-import { MenuSidebar } from "./_components/menu_sidebar";
+import { MenuSidebar } from "./_components/menuSidebar";
 
 const josefinSans = Josefin_Sans({
   variable: "--font-josefin-sans",

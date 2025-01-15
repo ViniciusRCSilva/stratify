@@ -1,5 +1,8 @@
+"use client"
+
 import { Building2, CreditCard, Grid2X2, Home, MessagesSquare, ReceiptText, Settings, ShoppingBasket } from "lucide-react"
 import Image from "next/image"
+import { usePathname } from "next/navigation"
 
 import {
     Sidebar,
@@ -40,6 +43,7 @@ const data = {
 }
 
 export function MenuSidebar() {
+    const pathname = usePathname()
     return (
         <Sidebar className="border-r border-white/20" collapsible="icon">
             <SidebarContent>
@@ -62,7 +66,10 @@ export function MenuSidebar() {
                             {data.navMain.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton tooltip={item.title} asChild>
-                                        <Link href={item.url} className="hover:bg-accent/20 text-white font-[family-name:var(--font-josefin-sans)]">
+                                        <Link
+                                            href={item.url}
+                                            className={`hover:bg-accent/20 text-white font-[family-name:var(--font-josefin-sans)] ${pathname === item.url ? 'bg-accent/20' : ''}`}
+                                        >
                                             <item.icon />
                                             <span>{item.title}</span>
                                         </Link>
@@ -73,7 +80,10 @@ export function MenuSidebar() {
                             {data.navSecondary.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton tooltip={item.title} asChild>
-                                        <Link href={item.url} className="hover:bg-accent/20 text-white font-[family-name:var(--font-josefin-sans)]">
+                                        <Link
+                                            href={item.url}
+                                            className={`hover:bg-accent/20 text-white font-[family-name:var(--font-josefin-sans)] ${pathname === item.url ? 'bg-accent/20' : ''}`}
+                                        >
                                             <item.icon />
                                             <span>{item.title}</span>
                                         </Link>
@@ -90,7 +100,10 @@ export function MenuSidebar() {
                             {data.navThird.map((item) => (
                                 <SidebarMenuItem key={item.title}>
                                     <SidebarMenuButton tooltip={item.title} asChild>
-                                        <Link href={item.url} className="hover:bg-accent/20 text-white font-[family-name:var(--font-josefin-sans)]">
+                                        <Link
+                                            href={item.url}
+                                            className={`hover:bg-accent/20 text-white font-[family-name:var(--font-josefin-sans)] ${pathname === item.url ? 'bg-accent/20' : ''}`}
+                                        >
                                             <item.icon />
                                             <span>{item.title}</span>
                                         </Link>
