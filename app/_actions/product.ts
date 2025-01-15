@@ -64,12 +64,18 @@ export const getProductsWithSales = async () => {
         }
     });
 
+    const alertStock = (stockQuantity: number) => {
+        if (stockQuantity === 0) return "destructive";
+        if (stockQuantity <= 30) return "warning";
+        return "success";
+    }
+
     return products.map(product => ({
         id: product.id,
         productName: product.name,
         price: product.unitPrice,
         totalSales: product.orderItems.reduce((total, item) => total + item.quantity, 0),
         stock: product.inventory[0]?.stockQuantity ?? 0,
-        status: product.status === PRODUCT_STATUS.IN_STOCK ? "inStock" : "outOfStock"
+        status: alertStock(product.inventory[0].stockQuantity),
     }));
 }

@@ -5,15 +5,14 @@ import { getProductsWithSales } from "@/app/_actions/product"
 import { CellId } from "./_components/cellId"
 import { Badge } from "../ui/badge"
 
-/* Interface para representar os dados do inventário */
-export type Inventory = {
-    id: string,
-    productName: string,
-    unitCost: number,
-    stockQuantity: number,
-    alertStock: boolean,
-    lastRestockedAt: Date,
-    location: string,
+export interface Inventory {
+    id: string
+    productName: string
+    unitCost: number
+    stockQuantity: number
+    alertStock: string
+    lastRestockedAt: Date
+    location: string
 }
 
 export const columns: ColumnDef<Inventory>[] = [
@@ -61,9 +60,19 @@ export const columns: ColumnDef<Inventory>[] = [
         accessorKey: "alertStock",
         header: "Alerta de estoque",
         cell: ({ row }) => {
-            return <Badge variant={row.getValue("alertStock") ? "destructive" : "success"}>
-                {row.getValue("alertStock") ? "Reabastecer" : "Em estoque"}
-            </Badge>
+            return (
+                <Badge variant={row.getValue("alertStock")}>
+                    {
+                        row.getValue("alertStock") === "destructive" ? (
+                            "Sem estoque"
+                        ) : row.getValue("alertStock") === "warning" ? (
+                            "Estoque baixo"
+                        ) : (
+                            "Em estoque"
+                        )
+                    }
+                </Badge>
+            );
         },
     },
     {

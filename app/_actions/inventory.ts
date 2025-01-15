@@ -16,20 +16,18 @@ export const getAllInventory = async () => {
         }
     );
 
-    const alertStock = await db.inventory.findMany({
-        where: {
-            stockQuantity: {
-                lte: 30
-            }
-        }
-    });
+    const alertStock = (stockQuantity: number) => {
+        if (stockQuantity === 0) return "destructive";
+        if (stockQuantity <= 30) return "warning";
+        return "success";
+    }
 
     return inventory.map(inventory => ({
         id: inventory.id,
         productName: inventory.product.name,
         unitCost: inventory.unitCost,
         stockQuantity: inventory.stockQuantity,
-        alertStock: alertStock.find(alert => alert.id === inventory.id) ? true : false,
+        alertStock: alertStock(inventory.stockQuantity),
         lastRestockedAt: inventory.lastRestockedAt,
         location: inventory.location,
     }));

@@ -60,10 +60,17 @@ export const columns: ColumnDef<Product>[] = [
         accessorKey: "status",
         header: "Status",
         cell: ({ row }) => {
-            const status = row.getValue("status") as "inStock" | "outOfStock"
             return (
-                <Badge variant={status === "inStock" ? "success" : "destructive"}>
-                    {status === "inStock" ? "Em estoque" : "Sem estoque"}
+                <Badge variant={row.getValue("status")}>
+                    {
+                        row.getValue("status") === "destructive" ? (
+                            "Sem estoque"
+                        ) : row.getValue("status") === "warning" ? (
+                            "Estoque baixo"
+                        ) : (
+                            "Em estoque"
+                        )
+                    }
                 </Badge>
             )
         },
