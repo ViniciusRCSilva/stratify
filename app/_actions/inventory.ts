@@ -8,7 +8,31 @@ export const createInventory = async (data: Prisma.InventoryCreateInput) => {
 
 /* Retorna todo o inventário */
 export const getAllInventory = async () => {
-    return db.inventory.findMany();
+    const inventory = await db.inventory.findMany(
+        {
+            include: {
+                product: true,
+            }
+        }
+    );
+
+    const alertStock = await db.inventory.findMany({
+        where: {
+            stockQuantity: {
+                lte: 30
+            }
+        }
+    });
+
+    return inventory.map(inventory => ({
+        id: inventory.id,
+        productName: inventory.product.name,
+        unitCost: inventory.unitCost,
+        stockQuantity: inventory.stockQuantity,
+        alertStock: alertStock.find(alert => alert.id === inventory.id) ? true : false,
+        lastRestockedAt: inventory.lastRestockedAt,
+        location: inventory.location,
+    }));
 };
 
 /* Retorna o inventário de um produto */
