@@ -6,6 +6,10 @@ import { Header } from "./_components/header";
 const pageTitles: { [key: string]: string } = {
     "/": "Visão Geral",
     "/inventory": "Inventário",
+    "/products": "Produtos",
+    "/orders": "Pedidos",
+    "/invoices": "Faturas",
+    "/clients": "Clientes",
 };
 
 export default function Template({ children }: { children: React.ReactNode }) {

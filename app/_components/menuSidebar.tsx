@@ -17,7 +17,7 @@ import {
     SidebarSeparator,
 } from "@/app/_components/ui/sidebar"
 
-import { NavUser } from "./nav-user"
+import { NavUser } from "./navUser"
 import Link from "next/link"
 
 const data = {
@@ -31,7 +31,7 @@ const data = {
         { title: "Inventário", url: "/inventory", icon: Building2 },
     ],
     navSecondary: [
-        { title: "Produtos", url: "#", icon: Grid2X2 },
+        { title: "Produtos", url: "/products", icon: Grid2X2 },
         { title: "Pedidos de Compra", url: "#", icon: ShoppingBasket },
         { title: "Faturas", url: "#", icon: ReceiptText },
         { title: "Preços", url: "#", icon: CreditCard },

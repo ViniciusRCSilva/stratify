@@ -2,7 +2,6 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { Badge } from "../ui/badge"
-import { getProductsWithSales } from "@/app/_actions/product"
 import { CellId } from "./_components/cellId"
 
 /* Interface para representar os dados dos produtos */
@@ -76,8 +75,3 @@ export const columns: ColumnDef<Product>[] = [
         },
     },
 ]
-
-export async function DataTableSales() {
-    const data = await getProductsWithSales();
-    return data;
-}

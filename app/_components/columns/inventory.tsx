@@ -1,16 +1,16 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { getProductsWithSales } from "@/app/_actions/product"
 import { CellId } from "./_components/cellId"
 import { Badge } from "../ui/badge"
 
 export interface Inventory {
     id: string
     productName: string
+    category: string
     unitCost: number
     stockQuantity: number
-    alertStock: string
+    stockStatus: string
     lastRestockedAt: Date
     location: string
 }
@@ -28,6 +28,13 @@ export const columns: ColumnDef<Inventory>[] = [
         header: "Nome do produto",
         cell: ({ row }) => {
             return <div className="max-w-[200px] truncate" title={row.getValue("productName")}>{row.getValue("productName")}</div>
+        },
+    },
+    {
+        accessorKey: "category",
+        header: "Categoria",
+        cell: ({ row }) => {
+            return row.getValue("category")
         },
     },
     {
@@ -57,15 +64,15 @@ export const columns: ColumnDef<Inventory>[] = [
         },
     },
     {
-        accessorKey: "alertStock",
-        header: "Alerta de estoque",
+        accessorKey: "stockStatus",
+        header: "Status de estoque",
         cell: ({ row }) => {
             return (
-                <Badge variant={row.getValue("alertStock")}>
+                <Badge variant={row.getValue("stockStatus")}>
                     {
-                        row.getValue("alertStock") === "destructive" ? (
+                        row.getValue("stockStatus") === "destructive" ? (
                             "Sem estoque"
-                        ) : row.getValue("alertStock") === "warning" ? (
+                        ) : row.getValue("stockStatus") === "warning" ? (
                             "Estoque baixo"
                         ) : (
                             "Em estoque"
@@ -89,8 +96,3 @@ export const columns: ColumnDef<Inventory>[] = [
         },
     },
 ]
-
-export async function DataTableSales() {
-    const data = await getProductsWithSales();
-    return data;
-}

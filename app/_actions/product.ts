@@ -9,7 +9,16 @@ export const createProduct = async (data: Prisma.ProductCreateInput) => {
 
 /* Retorna todos os produtos */
 export const getAllProducts = async () => {
-    return db.product.findMany();
+    return db.product.findMany({
+        include: {
+            orderItems: true,
+            inventory: {
+                select: {
+                    stockQuantity: true
+                }
+            }
+        }
+    });
 };
 
 /* Retorna um produto pelo ID */
@@ -53,16 +62,7 @@ export const updateProductStatusBasedOnStock = async (productId: string) => {
 
 /* Retorna todos os produtos com suas vendas */
 export const getProductsWithSales = async () => {
-    const products = await db.product.findMany({
-        include: {
-            orderItems: true,
-            inventory: {
-                select: {
-                    stockQuantity: true
-                }
-            }
-        }
-    });
+    const products = await getAllProducts();
 
     const alertStock = (stockQuantity: number) => {
         if (stockQuantity === 0) return "destructive";
@@ -77,5 +77,24 @@ export const getProductsWithSales = async () => {
         totalSales: product.orderItems.reduce((total, item) => total + item.quantity, 0),
         stock: product.inventory[0]?.stockQuantity ?? 0,
         status: alertStock(product.inventory[0].stockQuantity),
+    }));
+}
+
+export const getProductsForTable = async () => {
+    const products = await getAllProducts();
+
+    const alertStock = (stockQuantity: number) => {
+        if (stockQuantity === 0) return "destructive";
+        if (stockQuantity <= 30) return "warning";
+        return "success";
+    }
+
+    return products.map(product => ({
+        id: product.id,
+        name: product.name,
+        category: product.category,
+        unitPrice: product.unitPrice,
+        ordersQuantity: product.orderItems.reduce((total, item) => total + item.quantity, 0),
+        stockStatus: alertStock(product.inventory[0].stockQuantity)
     }));
 }

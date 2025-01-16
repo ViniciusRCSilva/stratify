@@ -25,9 +25,10 @@ export const getAllInventory = async () => {
     return inventory.map(inventory => ({
         id: inventory.id,
         productName: inventory.product.name,
+        category: inventory.product.category,
         unitCost: inventory.unitCost,
         stockQuantity: inventory.stockQuantity,
-        alertStock: alertStock(inventory.stockQuantity),
+        stockStatus: alertStock(inventory.stockQuantity),
         lastRestockedAt: inventory.lastRestockedAt,
         location: inventory.location,
     }));
