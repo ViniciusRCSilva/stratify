@@ -16,13 +16,16 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/app/_components/ui/select"
-import dashboardData from "../_data/dashboard.json"
 import { useState } from "react"
 
 type ChartData = {
     date: string
     sales: number
     profit: number
+}
+
+interface AreaChartProps {
+    data: ChartData[]
 }
 
 type TimeFilter = "daily" | "weekly" | "monthly" | "yearly"
@@ -45,18 +48,17 @@ export const TimeFilterLabel = {
     yearly: "anuais",
 }
 
-export function AreaChartComponent() {
+export function AreaChartComponent({ data }: AreaChartProps) {
     const [selectedPeriod, setSelectedPeriod] = useState<TimeFilter>("daily")
 
     const aggregateData = (data: ChartData[], period: TimeFilter): ChartData[] => {
-        if (period === "daily") return data
 
         // Get min and max years from the data
         const years = data.map(item => parseInt(item.date.split("-")[0]))
         const minYear = Math.min(...years)
         const maxYear = Math.max(...years)
 
-        const aggregated = new Map<string, { sales: number; profit: number; count: number }>()
+        const aggregated = new Map<string, { sales: number; profit: number }>()
 
         data.forEach((item) => {
             const date = new Date(item.date)
@@ -84,23 +86,23 @@ export function AreaChartComponent() {
             }
 
             if (!aggregated.has(key)) {
-                aggregated.set(key, { sales: 0, profit: 0, count: 0 })
+                aggregated.set(key, { sales: 0, profit: 0 })
             }
 
             const current = aggregated.get(key)!
             current.sales += item.sales
             current.profit += item.profit
-            current.count++
         })
 
         return Array.from(aggregated.entries()).map(([date, values]) => ({
             date,
-            sales: Math.round(values.sales / values.count),
-            profit: Math.round(values.profit / values.count),
+            sales: values.sales,
+            profit: values.profit,
+            invoiceStatus: INVOICE_STATUS.PAID
         })).sort((a, b) => a.date.localeCompare(b.date))
     }
 
-    const chartData = aggregateData(dashboardData.orders, selectedPeriod)
+    const chartData = aggregateData(data, selectedPeriod)
 
     return (
         <Card>

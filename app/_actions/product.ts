@@ -35,9 +35,20 @@ export const getProductsWithOrders = async () => {
             return acc + item.order.totalAmount;
         }, 0);
 
+        // Map the stockStatus to the correct union type
+        let stockStatus: "destructive" | "warning" | "success";
+        if (product.stock <= 10) {
+            stockStatus = "destructive";
+        } else if (product.stock <= 30) {
+            stockStatus = "warning";
+        } else {
+            stockStatus = "success";
+        }
+
         return {
             ...product,
-            orders
+            orders,
+            stockStatus
         };
     });
 

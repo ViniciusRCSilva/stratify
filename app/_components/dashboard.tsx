@@ -1,23 +1,38 @@
-/* import { AreaChartComponent } from "./areaChart";
+import { AreaChartComponent } from "./areaChart";
 import { BarChartComponent } from "./barChart";
 import { DataTableSales } from "./dataTableSales";
 import { columns } from "./columns/productSales";
 import { AlertStockCard } from "./alertStockCard";
-import { getProductsWithSales } from "../_actions/product"; */
+import { getProductsWithOrders } from "../_actions/product";
 import { StatisticCard } from "./statisticCard";
 import { Separator } from "./ui/separator";
 import { cardData } from "../_helper/cardData";
-
-/* async function getDashboardData() {
-    const [products] = await Promise.all([
-        getProductsWithSales(),
-    ]);
-    return { products };
-} */
+import { getInvoicesWithOrders } from "../_actions/invoice";
 
 export default async function Dashboard() {
-    /* const { products } = await getDashboardData(); */
     const cards = await cardData();
+    const products = await getProductsWithOrders();
+    const invoices = await getInvoicesWithOrders();
+
+    const dataTableSales = products.map((product) => ({
+        ...product,
+        ordersQuantity: product.orders,
+    }));
+
+    const lowStock = products.map((product) => ({
+        productName: product.name,
+        stock: product.stock,
+    }));
+
+    const dataChartInvoices = invoices.map((invoice) => ({
+        sales: invoice.totalAmount,
+        profit: invoice.order.orderItems.reduce((acc, item) => {
+            const unitPriceWithDiscount = (item.product.unitPrice - (item.product.unitPrice * (item.product.discount / 100)));
+            const itemProfit = (item.product.unitCost - unitPriceWithDiscount) * item.quantity;
+            return acc + itemProfit;
+        }, 0),
+        date: String(invoice.issueDate),
+    }));
 
     return (
         <>
@@ -32,8 +47,8 @@ export default async function Dashboard() {
                 ))}
             </div>
             <div className="flex flex-col lg:grid lg:grid-cols-[2fr_1fr] gap-4">
-                {/* <AreaChartComponent data={orders} />
-                <BarChartComponent data={orders} /> */}
+                <AreaChartComponent data={dataChartInvoices} />
+                <BarChartComponent data={dataChartInvoices} />
             </div>
             <div className="flex flex-col lg:grid lg:grid-cols-[2fr_1fr] gap-4">
                 <div className="flex flex-col gap-4">
@@ -42,9 +57,9 @@ export default async function Dashboard() {
                         <h1 className="text-2xl">Produtos mais vendidos</h1>
                         <p className="text-muted-foreground">Principais produtos mais vendidos</p>
                     </div>
-                    {/* <DataTableSales columns={columns} data={products.sort((a, b) => b.totalSales - a.totalSales).slice(0, 5)} /> */}
+                    <DataTableSales columns={columns} data={dataTableSales.sort((a, b) => b.ordersQuantity - a.ordersQuantity).slice(0, 5)} />
                 </div>
-                {/* <AlertStockCard lowStock={products.sort((a, b) => a.stock - b.stock).filter((product) => product.stock <= 30).slice(0, 5)} /> */}
+                <AlertStockCard lowStock={lowStock.sort((a, b) => a.stock - b.stock).filter((product) => product.stock <= 30).slice(0, 5)} />
             </div>
         </>
     );

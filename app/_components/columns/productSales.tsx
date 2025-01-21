@@ -7,11 +7,12 @@ import { CellId } from "./_components/cellId"
 /* Interface para representar os dados dos produtos */
 export type Product = {
     id: string;
-    productName: string;
-    price: number;
-    totalSales: number;
+    name: string;
+    category: string;
+    unitPrice: number;
+    ordersQuantity: number;
     stock: number;
-    status: string;
+    stockStatus: "destructive" | "warning" | "success";
 }
 
 export const columns: ColumnDef<Product>[] = [
@@ -56,15 +57,15 @@ export const columns: ColumnDef<Product>[] = [
         },
     },
     {
-        accessorKey: "status",
-        header: "Status",
+        accessorKey: "stockStatus",
+        header: "Status de estoque",
         cell: ({ row }) => {
             return (
-                <Badge variant={row.getValue("status")}>
+                <Badge variant={row.getValue("stockStatus")}>
                     {
-                        row.getValue("status") === "destructive" ? (
+                        row.getValue("stockStatus") === "destructive" ? (
                             "Sem estoque"
-                        ) : row.getValue("status") === "warning" ? (
+                        ) : row.getValue("stockStatus") === "warning" ? (
                             "Estoque baixo"
                         ) : (
                             "Em estoque"

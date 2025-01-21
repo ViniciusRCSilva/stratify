@@ -2,7 +2,6 @@
 
 import { TrendingUp, TrendingDown, Trash } from "lucide-react"
 import { Bar, BarChart, CartesianGrid, LabelList, XAxis } from "recharts"
-import dashboardData from "../_data/dashboard.json"
 import { useState } from "react"
 
 import {
@@ -28,6 +27,16 @@ import {
 } from "@/app/_components/ui/select"
 import { Button } from "@/app/_components/ui/button"
 
+interface ChartData {
+    date: string
+    sales: number
+    profit: number
+}
+
+interface BarChartProps {
+    data: ChartData[]
+}
+
 const months = {
     "01": "Janeiro",
     "02": "Fevereiro",
@@ -45,9 +54,9 @@ const months = {
 
 const sortedMonths = Object.entries(months).sort((a, b) => a[0].localeCompare(b[0]))
 
-const getAvailableYears = () => {
+const getAvailableYears = (data: ChartData[]) => {
     const years = new Set<string>()
-    dashboardData.orders.forEach(item => {
+    data.forEach(item => {
         const year = item.date.split("-")[0]
         years.add(year)
     })
@@ -61,14 +70,14 @@ const chartConfig = {
     },
 } satisfies ChartConfig
 
-export function BarChartComponent() {
-    const availableYears = getAvailableYears()
-    const [selectedYear, setSelectedYear] = useState(availableYears[availableYears.length - 1])
+export function BarChartComponent({ data }: BarChartProps) {
+    const availableYears = getAvailableYears(data)
+    const [selectedYear, setSelectedYear] = useState(availableYears[availableYears.length - 1] || new Date().getFullYear().toString())
     const [startMonth, setStartMonth] = useState<string>("01")
     const [endMonth, setEndMonth] = useState<string>("12")
 
     const calculateTotalSales = (year: string, startMonth: string, endMonth: string) => {
-        return dashboardData.orders.reduce((total, item) => {
+        return data.reduce((total, item) => {
             const [itemYear, itemMonth] = item.date.split("-")
             if (itemYear === year && itemMonth >= startMonth && itemMonth <= endMonth) {
                 return total + item.sales
@@ -93,7 +102,7 @@ export function BarChartComponent() {
         }
     }
 
-    const filteredChartData = dashboardData.orders.reduce((acc, item) => {
+    const filteredChartData = data.reduce((acc, item) => {
         const [year, month] = item.date.split("-")
 
         if (year === selectedYear && month >= startMonth && month <= endMonth) {
@@ -103,11 +112,15 @@ export function BarChartComponent() {
             if (existingMonth) {
                 existingMonth.sales += item.sales
             } else {
-                acc.push({ month: monthName, sales: item.sales })
+                acc.push({
+                    month: monthName,
+                    sales: item.sales
+                })
             }
         }
+
         return acc
-    }, [] as { month: string, sales: number }[])
+    }, [] as Array<{ month: string; sales: number }>)
 
     const handleStartMonthChange = (value: string) => {
         setStartMonth(value)
@@ -225,6 +238,7 @@ export function BarChartComponent() {
                                 offset={12}
                                 className="fill-foreground"
                                 fontSize={12}
+                                formatter={(value: number) => `R$ ${value.toFixed(2)}`}
                             />
                         </Bar>
                     </BarChart>

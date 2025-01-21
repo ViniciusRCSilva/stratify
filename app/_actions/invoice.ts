@@ -16,6 +16,23 @@ export const getInvoiceById = async (invoiceId: string) => {
     return db.invoice.findUnique({ where: { id: invoiceId } });
 };
 
+/* Busca as faturas com pedidos */
+export const getInvoicesWithOrders = async () => {
+    return db.invoice.findMany({
+        include: {
+            order: {
+                include: {
+                    orderItems: {
+                        include: {
+                            product: true
+                        }
+                    }
+                }
+            }
+        }
+    });
+};
+
 /* Busca as vendas de hoje */
 export const getTodaySales = async () => {
     return db.invoice.findMany({

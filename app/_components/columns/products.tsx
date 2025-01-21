@@ -10,7 +10,7 @@ export interface Product {
     category: string;
     unitPrice: number;
     ordersQuantity: number;
-    stockStatus: string;
+    stockStatus: "destructive" | "warning" | "success";
 }
 
 export const columns: ColumnDef<Product>[] = [
