@@ -14,7 +14,6 @@ export function StatisticCard({ title, value, percentage }: StatisticCardProps) 
         currency: 'BRL'
     }).format(value);
 
-    const formattedPercentage = Math.abs(percentage).toFixed(1);
     const isPositive = percentage > 0;
 
     return (
@@ -28,7 +27,7 @@ export function StatisticCard({ title, value, percentage }: StatisticCardProps) 
                     <p className="flex flex-col lg:flex-row lg:items-center gap-1 text-xs lg:text-sm text-muted-foreground">
                         <span className={`font-[family-name:var(--font-manrope)] flex items-center gap-1 ${isPositive ? `text-success` : `text-destructive`}`}>
                             {isPositive ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
-                            {formattedPercentage}%
+                            {percentage}%
                         </span>
                         <span className="lg:ml-1">{title === "Crescimento Mensal" ? "em relação ao mês anterior" : "em relação a ontem"}</span>
                     </p>

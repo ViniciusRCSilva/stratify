@@ -5,14 +5,16 @@ import { CellId } from "./_components/cellId"
 import { Badge } from "../ui/badge"
 
 export interface Inventory {
-    id: string
-    productName: string
-    category: string
-    unitCost: number
-    stockQuantity: number
-    stockStatus: string
-    lastRestockedAt: Date
-    location: string
+    id: string;
+    name: string;
+    category: string;
+    unitPrice: number;
+    discount: number;
+    unitCost: number;
+    stock: number;
+    location: string;
+    updatedAt: Date;
+    stockStatus: "destructive" | "warning" | "success";
 }
 
 export const columns: ColumnDef<Inventory>[] = [
@@ -57,10 +59,10 @@ export const columns: ColumnDef<Inventory>[] = [
         },
     },
     {
-        accessorKey: "stockQuantity",
+        accessorKey: "stock",
         header: "Quantidade em estoque",
         cell: ({ row }) => {
-            return <span className="font-[family-name:var(--font-manrope)]">{row.getValue("stockQuantity")}</span>
+            return <span className="font-[family-name:var(--font-manrope)]">{row.getValue("stock")}</span>
         },
     },
     {

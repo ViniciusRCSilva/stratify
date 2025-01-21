@@ -7,72 +7,41 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum PLAN {
-  FREE
-  PRO
-}
-
-enum PRODUCT_STATUS {
-  IN_STOCK
-  OUT_OF_STOCK
-}
-
-enum ORDER_STATUS {
-  PENDING
-  COMPLETED
-  CANCELLED
-}
-
-enum INVOICE_STATUS {
-  PENDING
-  PAID
-  OVERDUE
-}
-
-enum PAYMENT_METHOD {
-  CREDIT_CARD
-  DEBIT_CARD
-  CASH
-  PIX
-}
-
 model User {
-  id    String @id @default(uuid())
-  email String @unique
-  name  String
-  plan  PLAN   @default(FREE)
-
-  @@map("users")
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String
+  plan      PLAN     @default(FREE)
+  createdAt DateTime @default(now())
 }
 
 model Product {
-  id         String         @id @default(uuid())
-  name       String
-  category   String
-  unitPrice  Float
-  status     PRODUCT_STATUS @default(IN_STOCK)
-  createdAt  DateTime       @default(now())
-  updatedAt  DateTime       @updatedAt
-  orderItems OrderItem[]
-  inventory  Inventory[]
+  id        String      @id @default(uuid())
+  name      String
+  category  String
+  unitPrice Float
+  discount  Int         @default(0)
+  unitCost  Float
+  stock     Int         @default(0)
+  location  String
+  updatedAt DateTime    @updatedAt
+  orderItem OrderItem[]
 
-  @@index([category])
   @@map("products")
 }
 
-model Inventory {
-  id              String   @id @default(uuid())
-  productId       String
-  unitCost        Float
-  stockQuantity   Int
-  location        String
-  lastRestockedAt DateTime @default(now())
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+model Order {
+  id            String         @id @default(uuid())
+  clientId      String
+  client        Client         @relation(fields: [clientId], references: [id])
+  status        ORDER_STATUS   @default(PENDING_PAYMENT)
+  paymentMethod PAYMENT_METHOD
+  totalAmount   Float
+  createdAt     DateTime       @default(now())
+  orderItems    OrderItem[]
+  invoiceId     Invoice?
 
-  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-
-  @@map("inventories")
+  @@map("orders")
 }
 
 model OrderItem {
@@ -87,49 +56,44 @@ model OrderItem {
   @@map("order_items")
 }
 
-model Order {
-  id        String       @id @default(uuid())
-  clientId  String
-  status    ORDER_STATUS @default(PENDING)
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
-  products  OrderItem[]
-  Invoice   Invoice[]
-
-  client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
-
-  @@map("orders")
-}
-
 model Client {
-  id        String    @id @default(uuid())
+  id        String   @id @default(uuid())
   name      String
-  email     String    @unique
+  email     String   @unique
   phone     String?
+  createdAt DateTime @default(now())
   orders    Order[]
-  invoices  Invoice[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
 
   @@map("clients")
 }
 
 model Invoice {
   id            String         @id @default(uuid())
-  clientId      String
-  orderId       String
+  orderId       String         @unique
+  order         Order          @relation(fields: [orderId], references: [id])
   totalAmount   Float
-  status        INVOICE_STATUS @default(PENDING)
-  discount      Float          @default(0)
-  tax           Float          @default(0)
+  paymentMethod PAYMENT_METHOD
   issueDate     DateTime       @default(now())
-  dueDate       DateTime
-  paymentMethod PAYMENT_METHOD @default(CASH)
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-
-  client Client @relation(fields: [clientId], references: [id])
-  order  Order  @relation(fields: [orderId], references: [id], onDelete: Cascade)
 
   @@map("invoices")
+}
+
+enum PLAN {
+  FREE
+  PRO
+}
+
+enum ORDER_STATUS {
+  PENDING_PAYMENT
+  WAITING_CONFIRMATION
+  CONFIRMED
+  CANCELLED
+  COMPLETED
+}
+
+enum PAYMENT_METHOD {
+  CREDIT_CARD
+  DEBIT_CARD
+  CASH
+  PIX
 }

@@ -1,13 +1,18 @@
 import { DataTableInventory } from "./dataTableInventory";
-import { columns } from "./columns/inventory";
-import { getAllInventory } from "../_actions/inventory";
-
-async function getData() {
-    return getAllInventory();
-}
+import { columns, Inventory as InventoryType } from "./columns/inventory";
+import { getAllProducts } from "../_actions/product";
 
 export const Inventory = async () => {
-    const data = await getData();
+    const products = await getAllProducts();
+
+    const data: InventoryType[] = products.map((product) => ({
+        ...product,
+        stockStatus: product.stock === 0
+            ? "destructive"
+            : product.stock <= 30
+                ? "warning"
+                : "success"
+    }));
 
     return (
         <DataTableInventory columns={columns} data={data} />

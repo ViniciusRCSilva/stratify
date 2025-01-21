@@ -1,13 +1,19 @@
-import { columns } from "./columns/products";
+import { columns, Product as ProductType } from "./columns/products";
 import { DataTableProducts } from "./dataTableProducts";
-import { getProductsForTable } from "../_actions/product";
-
-async function getData() {
-    return getProductsForTable();
-}
+import { getProductsWithOrders } from "../_actions/product";
 
 export const Products = async () => {
-    const data = await getData();
+    const products = await getProductsWithOrders();
+
+    const data: ProductType[] = products.map((product) => ({
+        ...product,
+        ordersQuantity: product.orders,
+        stockStatus: product.stock === 0
+            ? "destructive"
+            : product.stock <= 30
+                ? "warning"
+                : "success"
+    }));
 
     return (
         <DataTableProducts columns={columns} data={data} />

@@ -179,7 +179,7 @@ async function main() {
         // 2025 Current Orders
         {
             clientEmail: 'joao.silva@example.com',
-            status: ORDER_STATUS.PENDING,
+            status: ORDER_STATUS.COMPLETED,
             items: [
                 { name: 'Placa de Vídeo RTX 3060', quantity: 1 },
                 { name: 'Water Cooler 240mm', quantity: 1 },
@@ -201,6 +201,48 @@ async function main() {
             items: [{ name: 'Notebook 16GB RAM', quantity: 1 }],
             createdAt: new Date('2025-01-16T17:04:06-03:00'),
         },
+        {
+            clientEmail: 'ana.souza@example.com',
+            status: ORDER_STATUS.PENDING,
+            items: [
+                { name: 'SSD 1TB', quantity: 2 },
+                { name: 'Mousepad XL', quantity: 1 },
+            ],
+            createdAt: new Date('2025-01-16T18:30:00-03:00'),
+        },
+        {
+            clientEmail: 'fernanda.lima@example.com',
+            status: ORDER_STATUS.PENDING,
+            items: [
+                { name: 'Teclado Mecânico RGB', quantity: 1 },
+                { name: 'Mouse Gamer', quantity: 1 },
+            ],
+            createdAt: new Date('2025-01-16T19:15:00-03:00'),
+        },
+        {
+            clientEmail: 'bruno.costa@example.com',
+            status: ORDER_STATUS.PENDING,
+            items: [{ name: 'Monitor Ultrawide', quantity: 1 }],
+            createdAt: new Date('2025-01-16T20:00:00-03:00'),
+        },
+        {
+            clientEmail: 'laura.nunes@example.com',
+            status: ORDER_STATUS.PROCESSING,
+            items: [
+                { name: 'Gabinete Gamer', quantity: 1 },
+                { name: 'Fonte 750W', quantity: 1 },
+            ],
+            createdAt: new Date('2025-01-16T20:45:00-03:00'),
+        },
+        {
+            clientEmail: 'ricardo.torres@example.com',
+            status: ORDER_STATUS.COMPLETED,
+            items: [
+                { name: 'Processador Ryzen 7', quantity: 1 },
+                { name: 'Water Cooler 240mm', quantity: 1 },
+            ],
+            createdAt: new Date('2025-01-16T21:30:00-03:00'),
+        }
     ];
 
     const orders = [];
@@ -339,7 +381,7 @@ async function main() {
                 clientId: orders[8].clientId,
                 orderId: orders[8].id,
                 totalAmount: 2949.98,
-                status: INVOICE_STATUS.PENDING,
+                status: INVOICE_STATUS.PAID,
                 discount: 150.0,
                 tax: 250.0,
                 issueDate: new Date('2025-01-10T09:30:00-03:00'),
@@ -367,6 +409,61 @@ async function main() {
                 issueDate: new Date('2025-01-16T16:59:10-03:00'),
                 dueDate: new Date('2025-02-15T16:59:10-03:00'),
                 paymentMethod: PAYMENT_METHOD.BANK_TRANSFER,
+            },
+            {
+                clientId: orders[11].clientId,
+                orderId: orders[11].id,
+                totalAmount: 1299.98,
+                status: INVOICE_STATUS.PENDING,
+                discount: 50.0,
+                tax: 100.0,
+                issueDate: new Date('2025-01-16T18:30:00-03:00'),
+                dueDate: new Date('2025-02-15T18:30:00-03:00'),
+                paymentMethod: PAYMENT_METHOD.PIX,
+            },
+            {
+                clientId: orders[12].clientId,
+                orderId: orders[12].id,
+                totalAmount: 899.98,
+                status: INVOICE_STATUS.PENDING,
+                discount: 30.0,
+                tax: 80.0,
+                issueDate: new Date('2025-01-16T19:15:00-03:00'),
+                dueDate: new Date('2025-02-15T19:15:00-03:00'),
+                paymentMethod: PAYMENT_METHOD.CREDIT_CARD,
+            },
+            {
+                clientId: orders[13].clientId,
+                orderId: orders[13].id,
+                totalAmount: 2499.99,
+                status: INVOICE_STATUS.PENDING,
+                discount: 100.0,
+                tax: 200.0,
+                issueDate: new Date('2025-01-16T20:00:00-03:00'),
+                dueDate: new Date('2025-02-15T20:00:00-03:00'),
+                paymentMethod: PAYMENT_METHOD.BANK_TRANSFER,
+            },
+            {
+                clientId: orders[14].clientId,
+                orderId: orders[14].id,
+                totalAmount: 1599.98,
+                status: INVOICE_STATUS.PENDING,
+                discount: 80.0,
+                tax: 150.0,
+                issueDate: new Date('2025-01-16T20:45:00-03:00'),
+                dueDate: new Date('2025-02-15T20:45:00-03:00'),
+                paymentMethod: PAYMENT_METHOD.CREDIT_CARD,
+            },
+            {
+                clientId: orders[15].clientId,
+                orderId: orders[15].id,
+                totalAmount: 3299.98,
+                status: INVOICE_STATUS.PAID,
+                discount: 150.0,
+                tax: 280.0,
+                issueDate: new Date('2025-01-16T21:30:00-03:00'),
+                dueDate: new Date('2025-02-15T21:30:00-03:00'),
+                paymentMethod: PAYMENT_METHOD.PIX,
             },
         ],
     });
