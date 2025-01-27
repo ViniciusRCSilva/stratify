@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -49,6 +50,9 @@ async function main() {
             { name: 'Charlie Brown', email: 'charlie.brown@email.com', phone: '1122334455' },
             { name: 'Diana Prince', email: 'diana.prince@email.com', phone: '2233445566' },
             { name: 'Ethan Hunt', email: 'ethan.hunt@email.com', phone: '3344556677' },
+            { name: 'Frank Castle', email: 'frank.castle@email.com', phone: '4455667788' },
+            { name: 'Grace Kelly', email: 'grace.kelly@email.com', phone: '5566778899' },
+            { name: 'Henry Ford', email: 'henry.ford@email.com', phone: '6677889900' },
         ],
     });
     console.log(`Criados ${clients.count} clientes.`);
@@ -60,13 +64,13 @@ async function main() {
         tablet, teclado, mouse, camera, arCondicionado, fone, headset,
         projetor, geladeira, fogao
     ] = allProducts;
-    const [alice, bob, charlie, diana, ethan] = await prisma.client.findMany();
+    const [alice, bob, charlie, diana, ethan, frank, grace, henry] = await prisma.client.findMany();
 
     // Criar Pedidos
     const order1 = await prisma.order.create({
         data: {
             clientId: alice.id,
-            status: 'CONFIRMED',
+            status: 'COMPLETED',
             paymentMethod: 'CREDIT_CARD',
             totalAmount: 4450.0,
             orderItems: {
@@ -100,7 +104,7 @@ async function main() {
     const order3 = await prisma.order.create({
         data: {
             clientId: charlie.id,
-            status: 'CONFIRMED',
+            status: 'COMPLETED',
             paymentMethod: 'DEBIT_CARD',
             totalAmount: 2950.0,
             orderItems: {
@@ -117,7 +121,7 @@ async function main() {
     const order4 = await prisma.order.create({
         data: {
             clientId: diana.id,
-            status: 'CONFIRMED',
+            status: 'COMPLETED',
             paymentMethod: 'CASH',
             totalAmount: 6000.0,
             orderItems: {
@@ -148,7 +152,7 @@ async function main() {
     const order6 = await prisma.order.create({
         data: {
             clientId: alice.id,
-            status: 'CONFIRMED',
+            status: 'COMPLETED',
             paymentMethod: 'CREDIT_CARD',
             totalAmount: 5400.0,
             orderItems: {
@@ -164,7 +168,7 @@ async function main() {
     const order7 = await prisma.order.create({
         data: {
             clientId: bob.id,
-            status: 'CONFIRMED',
+            status: 'COMPLETED',
             paymentMethod: 'PIX',
             totalAmount: 3850.0,
             orderItems: {
@@ -180,7 +184,7 @@ async function main() {
     const order8 = await prisma.order.create({
         data: {
             clientId: charlie.id,
-            status: 'CONFIRMED',
+            status: 'COMPLETED',
             paymentMethod: 'DEBIT_CARD',
             totalAmount: 4100.0,
             orderItems: {
@@ -196,7 +200,7 @@ async function main() {
     const order9 = await prisma.order.create({
         data: {
             clientId: diana.id,
-            status: 'CONFIRMED',
+            status: 'COMPLETED',
             paymentMethod: 'CREDIT_CARD',
             totalAmount: 7200.0,
             orderItems: {
@@ -212,7 +216,7 @@ async function main() {
     const order10 = await prisma.order.create({
         data: {
             clientId: ethan.id,
-            status: 'CONFIRMED',
+            status: 'COMPLETED',
             paymentMethod: 'PIX',
             totalAmount: 8300.0,
             orderItems: {
@@ -225,63 +229,100 @@ async function main() {
         },
     });
 
-    console.log('Criados 10 pedidos.');
-
-    // Criar Faturas para Pedidos Confirmados
-    const invoices = await prisma.invoice.createMany({
-        data: [
-            {
-                orderId: order1.id,
-                totalAmount: order1.totalAmount,
-                paymentMethod: order1.paymentMethod,
-                issueDate: order1.createdAt,
+    const order11 = await prisma.order.create({
+        data: {
+            clientId: frank.id,
+            status: 'CANCELLED',
+            paymentMethod: 'CREDIT_CARD',
+            totalAmount: 4200.0,
+            orderItems: {
+                create: [
+                    { productId: notebook.id, quantity: 1 },
+                    { productId: mouse.id, quantity: 3 },
+                ],
             },
-            {
-                orderId: order3.id,
-                totalAmount: order3.totalAmount,
-                paymentMethod: order3.paymentMethod,
-                issueDate: order3.createdAt,
-            },
-            {
-                orderId: order4.id,
-                totalAmount: order4.totalAmount,
-                paymentMethod: order4.paymentMethod,
-                issueDate: order4.createdAt,
-            },
-            {
-                orderId: order6.id,
-                totalAmount: order6.totalAmount,
-                paymentMethod: order6.paymentMethod,
-                issueDate: order6.createdAt,
-            },
-            {
-                orderId: order7.id,
-                totalAmount: order7.totalAmount,
-                paymentMethod: order7.paymentMethod,
-                issueDate: order7.createdAt,
-            },
-            {
-                orderId: order8.id,
-                totalAmount: order8.totalAmount,
-                paymentMethod: order8.paymentMethod,
-                issueDate: order8.createdAt,
-            },
-            {
-                orderId: order9.id,
-                totalAmount: order9.totalAmount,
-                paymentMethod: order9.paymentMethod,
-                issueDate: order9.createdAt,
-            },
-            {
-                orderId: order10.id,
-                totalAmount: order10.totalAmount,
-                paymentMethod: order10.paymentMethod,
-                issueDate: order10.createdAt,
-            },
-        ],
+            createdAt: new Date(2024, 11, 10), // December 10, 2024
+        },
     });
-    console.log(`Criadas ${invoices.count} faturas para pedidos confirmados.`);
 
+    const order12 = await prisma.order.create({
+        data: {
+            clientId: grace.id,
+            status: 'COMPLETED',
+            paymentMethod: 'PIX',
+            totalAmount: 3900.0,
+            orderItems: {
+                create: [
+                    { productId: smartphone.id, quantity: 1 },
+                    { productId: fone.id, quantity: 3 },
+                ],
+            },
+            createdAt: new Date(2024, 11, 5), // December 5, 2024
+        },
+    });
+
+    const order13 = await prisma.order.create({
+        data: {
+            clientId: henry.id,
+            status: 'CONFIRMED',
+            paymentMethod: 'DEBIT_CARD',
+            totalAmount: 5100.0,
+            orderItems: {
+                create: [
+                    { productId: arCondicionado.id, quantity: 2 },
+                    { productId: luminaria.id, quantity: 4 },
+                ],
+            },
+            createdAt: new Date(2024, 11, 1), // December 1, 2024
+        },
+    });
+
+    const order14 = await prisma.order.create({
+        data: {
+            clientId: frank.id,
+            status: 'WAITING_CONFIRMATION',
+            paymentMethod: 'CREDIT_CARD',
+            totalAmount: 6800.0,
+            orderItems: {
+                create: [
+                    { productId: projetor.id, quantity: 2 },
+                    { productId: teclado.id, quantity: 2 },
+                ],
+            },
+            createdAt: new Date(2024, 10, 28), // November 28, 2024
+        },
+    });
+
+    const order15 = await prisma.order.create({
+        data: {
+            clientId: grace.id,
+            status: 'CANCELLED',
+            paymentMethod: 'PIX',
+            totalAmount: 3200.0,
+            orderItems: {
+                create: [
+                    { productId: tablet.id, quantity: 1 },
+                ],
+            },
+            createdAt: new Date(2024, 10, 25), // November 25, 2024
+        },
+    });
+
+    console.log('Criados 15 pedidos.');
+
+    // Criar Faturas apenas para Pedidos Completos (COMPLETED)
+    const completedOrders = [order1, order3, order4, order6, order7, order8, order9, order10, order12];
+
+    const invoices = await prisma.invoice.createMany({
+        data: completedOrders.map(order => ({
+            orderId: order.id,
+            totalAmount: order.totalAmount,
+            paymentMethod: order.paymentMethod,
+            issueDate: order.createdAt,
+        })),
+    });
+
+    console.log(`Criadas ${invoices.count} faturas para pedidos completos.`);
     console.log('Seeding completo.');
 }
 

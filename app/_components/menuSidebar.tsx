@@ -32,7 +32,7 @@ const data = {
     ],
     navSecondary: [
         { title: "Produtos", url: "/products", icon: Grid2X2 },
-        { title: "Pedidos de Compra", url: "#", icon: ShoppingBasket },
+        { title: "Pedidos", url: "/orders", icon: ShoppingBasket },
         { title: "Faturas", url: "#", icon: ReceiptText },
         { title: "Preços", url: "#", icon: CreditCard },
     ],
