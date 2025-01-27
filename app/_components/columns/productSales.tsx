@@ -24,29 +24,29 @@ export const columns: ColumnDef<Product>[] = [
         },
     },
     {
-        accessorKey: "productName",
+        accessorKey: "name",
         header: "Nome do produto",
         cell: ({ row }) => {
-            return <div className="max-w-[200px] truncate" title={row.getValue("productName")}>{row.getValue("productName")}</div>
+            return <div className="max-w-[200px] truncate" title={row.getValue("name")}>{row.getValue("name")}</div>
         },
     },
     {
-        accessorKey: "price",
+        accessorKey: "unitPrice",
         header: "Preço",
         cell: ({ row }) => {
-            const price = parseFloat(row.getValue("price"))
+            const unitPrice = parseFloat(row.getValue("unitPrice"))
             const formatted = new Intl.NumberFormat("pt-BR", {
                 style: "currency",
                 currency: "BRL",
-            }).format(price)
+            }).format(unitPrice)
             return <span className="font-[family-name:var(--font-manrope)]">{formatted}</span>
         },
     },
     {
-        accessorKey: "totalSales",
+        accessorKey: "ordersQuantity",
         header: "Vendas",
         cell: ({ row }) => {
-            return <span className="font-[family-name:var(--font-manrope)]">{row.getValue("totalSales")}</span>
+            return <span className="font-[family-name:var(--font-manrope)]">{row.getValue("ordersQuantity")}</span>
         },
     },
     {

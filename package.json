@@ -2,11 +2,15 @@
   "name": "stratify",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
+  },
+  "prisma": {
+    "seed": "node --loader ts-node/esm prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.2.1",
@@ -31,7 +35,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@types/node": "^20.17.12",
+    "@types/node": "^20.17.14",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",

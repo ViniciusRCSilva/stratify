@@ -28,7 +28,7 @@ interface AreaChartProps {
     data: ChartData[]
 }
 
-type TimeFilter = "daily" | "weekly" | "monthly" | "yearly"
+type TimeFilter = "7days" | "30days" | "3months"
 
 const chartConfig = {
     sales: {
@@ -42,64 +42,41 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export const TimeFilterLabel = {
-    daily: "diários",
-    weekly: "semanais",
-    monthly: "mensais",
-    yearly: "anuais",
+    "7days": "últimos 7 dias",
+    "30days": "últimos 30 dias",
+    "3months": "últimos 3 meses",
 }
 
 export function AreaChartComponent({ data }: AreaChartProps) {
-    const [selectedPeriod, setSelectedPeriod] = useState<TimeFilter>("daily")
+    const [selectedPeriod, setSelectedPeriod] = useState<TimeFilter>("30days")
 
     const aggregateData = (data: ChartData[], period: TimeFilter): ChartData[] => {
+        const now = new Date()
+        let startDate: Date
 
-        // Get min and max years from the data
-        const years = data.map(item => parseInt(item.date.split("-")[0]))
-        const minYear = Math.min(...years)
-        const maxYear = Math.max(...years)
+        switch (period) {
+            case "7days":
+                startDate = new Date(now)
+                startDate.setDate(now.getDate() - 7)
+                break
+            case "30days":
+                startDate = new Date(now)
+                startDate.setDate(now.getDate() - 30)
+                break
+            case "3months":
+                startDate = new Date(now)
+                startDate.setMonth(now.getMonth() - 3)
+                break
+        }
 
-        const aggregated = new Map<string, { sales: number; profit: number }>()
-
-        data.forEach((item) => {
-            const date = new Date(item.date)
-            const year = date.getFullYear()
-
-            // Skip if year is outside our data range
-            if (year < minYear || year > maxYear) return
-
-            let key = ""
-
-            switch (period) {
-                case "weekly":
-                    // Get the Monday of the week
-                    const day = date.getDay()
-                    const diff = date.getDate() - day + (day === 0 ? -6 : 1)
-                    const monday = new Date(date.setDate(diff))
-                    key = monday.toISOString().split("T")[0]
-                    break
-                case "monthly":
-                    key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-01`
-                    break
-                case "yearly":
-                    key = `${date.getFullYear()}-01-01`
-                    break
-            }
-
-            if (!aggregated.has(key)) {
-                aggregated.set(key, { sales: 0, profit: 0 })
-            }
-
-            const current = aggregated.get(key)!
-            current.sales += item.sales
-            current.profit += item.profit
+        // Filter data within the selected time range
+        const filteredData = data.filter(item => {
+            const itemDate = new Date(item.date)
+            return itemDate >= startDate && itemDate <= now
         })
 
-        return Array.from(aggregated.entries()).map(([date, values]) => ({
-            date,
-            sales: values.sales,
-            profit: values.profit,
-            invoiceStatus: INVOICE_STATUS.PAID
-        })).sort((a, b) => a.date.localeCompare(b.date))
+        // Sort by date
+        return filteredData.sort((a, b) => a.date.localeCompare(b.date))
     }
 
     const chartData = aggregateData(data, selectedPeriod)
@@ -110,7 +87,7 @@ export function AreaChartComponent({ data }: AreaChartProps) {
                 <div className="grid flex-1 gap-1 text-center sm:text-left">
                     <CardTitle>Vendas e Lucro</CardTitle>
                     <CardDescription>
-                        Mostrando as vendas e lucro {TimeFilterLabel[selectedPeriod]}
+                        Mostrando as vendas e lucro dos {TimeFilterLabel[selectedPeriod]}
                     </CardDescription>
                 </div>
                 <Select
@@ -121,20 +98,17 @@ export function AreaChartComponent({ data }: AreaChartProps) {
                         className="w-[160px] rounded-lg sm:ml-auto"
                         aria-label="Select a value"
                     >
-                        <SelectValue placeholder="Últimos 3 meses" />
+                        <SelectValue placeholder="Selecione um período" />
                     </SelectTrigger>
                     <SelectContent className="rounded-xl">
-                        <SelectItem value="daily" className="rounded-lg">
-                            Diário
+                        <SelectItem value="7days" className="rounded-lg">
+                            Últimos 7 dias
                         </SelectItem>
-                        <SelectItem value="weekly" className="rounded-lg">
-                            Semanal
+                        <SelectItem value="30days" className="rounded-lg">
+                            Últimos 30 dias
                         </SelectItem>
-                        <SelectItem value="monthly" className="rounded-lg">
-                            Mensal
-                        </SelectItem>
-                        <SelectItem value="yearly" className="rounded-lg">
-                            Anual
+                        <SelectItem value="3months" className="rounded-lg">
+                            Últimos 3 meses
                         </SelectItem>
                     </SelectContent>
                 </Select>

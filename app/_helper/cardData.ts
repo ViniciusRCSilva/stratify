@@ -23,35 +23,15 @@ async function getData() {
 export async function cardData() {
     const { todayTotalSales, todayTotalSalesPercentage, todayProfit, todayProfitPercentage, monthlySales, monthlySalesPercentage } = await getData();
 
-    if (!todayTotalSales || !todayProfit) {
-        return [
-            {
-                title: "Vendas hoje",
-                value: 0,
-                percentage: 0
-            },
-            {
-                title: "Lucro hoje",
-                value: 0,
-                percentage: 0
-            },
-            {
-                title: "Crescimento Mensal",
-                value: 0,
-                percentage: 0
-            }
-        ];
-    }
-
     return [
         {
             title: "Vendas hoje",
-            value: todayTotalSales,
+            value: !todayTotalSales ? 0 : todayTotalSales,
             percentage: Number(todayTotalSalesPercentage)
         },
         {
             title: "Lucro hoje",
-            value: todayProfit,
+            value: !todayProfit ? 0 : todayProfit,
             percentage: Number(todayProfitPercentage)
         },
         {

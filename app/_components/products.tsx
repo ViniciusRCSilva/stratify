@@ -7,7 +7,7 @@ export const Products = async () => {
 
     const data: ProductType[] = products.map((product) => ({
         ...product,
-        ordersQuantity: product.orders,
+        ordersQuantity: product.ordersQuantity,
         stockStatus: product.stock === 0
             ? "destructive"
             : product.stock <= 30

@@ -16,7 +16,7 @@ export default async function Dashboard() {
 
     const dataTableSales = products.map((product) => ({
         ...product,
-        ordersQuantity: product.orders,
+        ordersQuantity: product.ordersQuantity,
     }));
 
     const lowStock = products.map((product) => ({
@@ -25,13 +25,13 @@ export default async function Dashboard() {
     }));
 
     const dataChartInvoices = invoices.map((invoice) => ({
+        date: invoice.issueDate.toISOString().split('T')[0],
         sales: invoice.totalAmount,
         profit: invoice.order.orderItems.reduce((acc, item) => {
             const unitPriceWithDiscount = (item.product.unitPrice - (item.product.unitPrice * (item.product.discount / 100)));
-            const itemProfit = (item.product.unitCost - unitPriceWithDiscount) * item.quantity;
+            const itemProfit = (unitPriceWithDiscount - item.product.unitCost) * item.quantity;
             return acc + itemProfit;
         }, 0),
-        date: String(invoice.issueDate),
     }));
 
     return (

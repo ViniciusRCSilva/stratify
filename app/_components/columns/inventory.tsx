@@ -26,10 +26,10 @@ export const columns: ColumnDef<Inventory>[] = [
         },
     },
     {
-        accessorKey: "productName",
+        accessorKey: "name",
         header: "Nome do produto",
         cell: ({ row }) => {
-            return <div className="max-w-[200px] truncate" title={row.getValue("productName")}>{row.getValue("productName")}</div>
+            return <div className="max-w-[200px] truncate" title={row.getValue("name")}>{row.getValue("name")}</div>
         },
     },
     {
@@ -85,10 +85,10 @@ export const columns: ColumnDef<Inventory>[] = [
         },
     },
     {
-        accessorKey: "lastRestockedAt",
+        accessorKey: "updatedAt",
         header: "Último reabastecimento",
         cell: ({ row }) => {
-            const lastRestockedAt = new Date(row.getValue("lastRestockedAt"))
+            const lastRestockedAt = new Date(row.getValue("updatedAt"))
             const formatted = lastRestockedAt.toLocaleDateString("pt-BR", {
                 day: "numeric",
                 month: "numeric",

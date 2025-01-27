@@ -27,17 +27,14 @@ export const getProductsWithOrders = async () => {
                     order: true
                 }
             }
-        }
+        },
     });
 
     const productsWithOrders = products.map((product) => {
-        const orders = product.orderItem.reduce((acc, item) => {
-            return acc + item.order.totalAmount;
-        }, 0);
+        const ordersQuantity = product.orderItem.length;
 
-        // Map the stockStatus to the correct union type
         let stockStatus: "destructive" | "warning" | "success";
-        if (product.stock <= 10) {
+        if (product.stock === 0) {
             stockStatus = "destructive";
         } else if (product.stock <= 30) {
             stockStatus = "warning";
@@ -47,7 +44,7 @@ export const getProductsWithOrders = async () => {
 
         return {
             ...product,
-            orders,
+            ordersQuantity,
             stockStatus
         };
     });
