@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { CellId } from "./_components/cellId"
 import { Badge } from "../ui/badge"
+import { moneyFormat } from "@/app/_helper/moneyFormat";
 
 export interface Inventory {
     id: string;
@@ -43,12 +44,7 @@ export const columns: ColumnDef<Inventory>[] = [
         accessorKey: "unitCost",
         header: "Custo unitário",
         cell: ({ row }) => {
-            const unitCost = parseFloat(row.getValue("unitCost"))
-            const formatted = new Intl.NumberFormat("pt-BR", {
-                style: "currency",
-                currency: "BRL",
-            }).format(unitCost)
-            return <span className="font-[family-name:var(--font-manrope)]">{formatted}</span>
+            return <span className="font-[family-name:var(--font-manrope)]">{moneyFormat(row.getValue("unitCost"))}</span>
         },
     },
     {

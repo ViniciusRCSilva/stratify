@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Card, CardContent, CardHeader, CardTitle } from "../_components/ui/card";
 import { TrendingDown, TrendingUp } from "lucide-react";
+import { moneyFormat } from "../_helper/moneyFormat";
 
 interface StatisticCardProps {
     title: string;
@@ -9,11 +10,6 @@ interface StatisticCardProps {
 }
 
 export function StatisticCard({ title, value, percentage }: StatisticCardProps) {
-    const formattedValue = new Intl.NumberFormat('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
-    }).format(value);
-
     const isPositive = percentage > 0;
 
     return (
@@ -23,7 +19,7 @@ export function StatisticCard({ title, value, percentage }: StatisticCardProps) 
             </CardHeader>
             <CardContent className="flex justify-between items-center p-4 lg:p-6">
                 <div className="flex flex-col gap-1 lg:gap-2">
-                    <p className="font-[family-name:var(--font-manrope)] text-xl lg:text-2xl font-bold">{formattedValue}</p>
+                    <p className="font-[family-name:var(--font-manrope)] text-xl lg:text-2xl font-bold">{moneyFormat(value)}</p>
                     <p className="flex flex-col lg:flex-row lg:items-center gap-1 text-xs lg:text-sm text-muted-foreground">
                         <span className={`font-[family-name:var(--font-manrope)] flex items-center gap-1 ${isPositive ? `text-success` : `text-destructive`}`}>
                             {isPositive ? <TrendingUp size={14} /> : <TrendingDown size={14} />}

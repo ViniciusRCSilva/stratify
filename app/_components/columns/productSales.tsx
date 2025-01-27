@@ -3,6 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { Badge } from "../ui/badge"
 import { CellId } from "./_components/cellId"
+import { moneyFormat } from "@/app/_helper/moneyFormat"
 
 /* Interface para representar os dados dos produtos */
 export type Product = {
@@ -34,12 +35,7 @@ export const columns: ColumnDef<Product>[] = [
         accessorKey: "unitPrice",
         header: "Preço",
         cell: ({ row }) => {
-            const unitPrice = parseFloat(row.getValue("unitPrice"))
-            const formatted = new Intl.NumberFormat("pt-BR", {
-                style: "currency",
-                currency: "BRL",
-            }).format(unitPrice)
-            return <span className="font-[family-name:var(--font-manrope)]">{formatted}</span>
+            return <span className="font-[family-name:var(--font-manrope)]">{moneyFormat(row.getValue("unitPrice"))}</span>
         },
     },
     {
