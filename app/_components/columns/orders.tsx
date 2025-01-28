@@ -5,7 +5,6 @@ import { CellId } from "./_components/cellId"
 import { Badge } from "../ui/badge";
 import { ORDER_STATUS, PAYMENT_METHOD } from "@prisma/client";
 import { moneyFormat } from "@/app/_helper/moneyFormat";
-import { paymentMethodLabel } from "@/app/_helper/paymentMethodLabel";
 import { orderStatusLabel } from "@/app/_helper/orderStatusLabel"; // Added import statement
 import { OrderInfoDialog } from "./_components/orderInfoDialog";
 
@@ -16,7 +15,6 @@ export interface Orders {
     clientId: string;
     status: ORDER_STATUS;
     createdAt: Date;
-    productsQuantity: number;
     orderItems: {
         id: string;
         productId: string;
@@ -53,30 +51,10 @@ export const columns: ColumnDef<Orders>[] = [
         },
     },
     {
-        accessorKey: "productsQuantity",
-        header: "Quantidade de produtos",
-        cell: ({ row }) => {
-            return (
-                <span className="font-[family-name:var(--font-manrope)]">
-                    {row.getValue("productsQuantity")}
-                    <span className="font-[family-name:var(--font-josefin-sans)]">{row.getValue("productsQuantity") === 1 ? " produto" : " produtos"}</span>
-                </span>)
-        },
-    },
-    {
         accessorKey: "totalAmount",
         header: "Valor total do pedido",
         cell: ({ row }) => {
             return <div className="font-[family-name:var(--font-manrope)]" title={row.getValue("totalAmount")}>{moneyFormat(row.getValue("totalAmount"))}</div>
-        },
-    },
-    {
-        accessorKey: "paymentMethod",
-        header: "Forma de pagamento",
-        cell: ({ row }) => {
-            return (
-                paymentMethodLabel(row.getValue("paymentMethod"))
-            )
         },
     },
     {
@@ -115,19 +93,21 @@ export const columns: ColumnDef<Orders>[] = [
         },
     },
     {
-        id: "products",
-        header: "Produtos",
+        accessorKey: "actions",
+        header: "",
         cell: ({ row }) => {
             const client = row.getValue("client") as Orders["client"];
             const orderItems = row.original.orderItems;
+            const paymentMethod = row.original.paymentMethod;
+            const status = row.original.status;
             return (
                 <OrderInfoDialog
                     orderId={row.getValue("id")}
                     client={client}
                     orderItems={orderItems}
+                    status={status}
+                    paymentMethod={paymentMethod}
                     totalAmount={row.getValue("totalAmount")}
-                    status={row.getValue("status")}
-                    paymentMethod={row.getValue("paymentMethod")}
                     createdAt={row.getValue("createdAt")}
                 />
             )

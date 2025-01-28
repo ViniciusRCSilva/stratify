@@ -13,7 +13,6 @@ export const Orders = async () => {
         return {
             ...order,
             client,
-            productsQuantity: order.orderItems.length,
             orderItems: order.orderItems,
         };
     }));
