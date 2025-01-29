@@ -1,7 +1,7 @@
 import { AreaChartComponent } from "./areaChart";
 import { BarChartComponent } from "./barChart";
 import { DataTableSales } from "./dataTableSales";
-import { columns } from "./columns/productSales";
+import { columns } from "./_columns/productSales";
 import { AlertStockCard } from "./alertStockCard";
 import { getProductsWithOrders } from "../_actions/product";
 import { StatisticCard } from "./statisticCard";

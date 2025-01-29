@@ -1,4 +1,4 @@
-import { columns, Orders as OrderType } from "./columns/orders";
+import { columns, Orders as OrderType } from "./_columns/orders";
 import { DataTableOrders } from "./dataTableOrders";
 import { getAllOrders } from "../_actions/order";
 import { getClientById } from "../_actions/client";

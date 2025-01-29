@@ -1,5 +1,5 @@
 import { DataTableInventory } from "./dataTableInventory";
-import { columns, Inventory as InventoryType } from "./columns/inventory";
+import { columns, Inventory as InventoryType } from "./_columns/inventory";
 import { getAllProducts } from "../_actions/product";
 
 export const Inventory = async () => {

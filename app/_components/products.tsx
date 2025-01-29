@@ -1,4 +1,4 @@
-import { columns, Product as ProductType } from "./columns/products";
+import { columns, Product as ProductType } from "./_columns/products";
 import { DataTableProducts } from "./dataTableProducts";
 import { getProductsWithOrders } from "../_actions/product";
 
