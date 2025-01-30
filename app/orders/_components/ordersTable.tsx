@@ -1,9 +1,9 @@
-import { columns, Orders as OrderType } from "./_columns/orders";
-import { DataTableOrders } from "./dataTableOrders";
-import { getAllOrders } from "../_actions/order";
-import { getClientById } from "../_actions/client";
+import { columns, Orders as OrderType } from "@/app/_components/_columns/orders";
+import { DataTableOrders } from "@/app/_components/dataTableOrders";
+import { getAllOrders } from "@/app/_actions/order";
+import { getClientById } from "@/app/_actions/client";
 
-export const Orders = async () => {
+export const OrdersTable = async () => {
     const orders = await getAllOrders();
 
     const data: OrderType[] = await Promise.all(orders.map(async (order) => {
@@ -20,4 +20,4 @@ export const Orders = async () => {
     return (
         <DataTableOrders columns={columns} data={data} />
     );
-};
+}

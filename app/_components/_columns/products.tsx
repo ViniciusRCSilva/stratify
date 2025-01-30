@@ -2,7 +2,6 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { CellId } from "./_components/cellId"
-import { Badge } from "../ui/badge";
 import { moneyFormat } from "@/app/_helper/moneyFormat";
 
 export interface Product {
@@ -11,7 +10,6 @@ export interface Product {
     category: string;
     unitPrice: number;
     ordersQuantity: number;
-    stockStatus: "destructive" | "warning" | "success";
 }
 
 export const columns: ColumnDef<Product>[] = [
@@ -48,25 +46,6 @@ export const columns: ColumnDef<Product>[] = [
         header: "Quantidade de pedidos",
         cell: ({ row }) => {
             return <span className="font-[family-name:var(--font-manrope)]">{row.getValue("ordersQuantity")}</span>
-        },
-    },
-    {
-        accessorKey: "stockStatus",
-        header: "Status de estoque",
-        cell: ({ row }) => {
-            return (
-                <Badge variant={row.getValue("stockStatus")}>
-                    {
-                        row.getValue("stockStatus") === "destructive" ? (
-                            "Sem estoque"
-                        ) : row.getValue("stockStatus") === "warning" ? (
-                            "Estoque baixo"
-                        ) : (
-                            "Em estoque"
-                        )
-                    }
-                </Badge>
-            )
         },
     },
 ]

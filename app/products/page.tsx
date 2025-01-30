@@ -1,5 +1,11 @@
-import { Products } from "@/app/_components/products";
+import { ToggleDashboardTable } from "../_components/toggleDashboardTable";
+import { ProductsTable } from "./_components/productsTable";
 
-export default function ProductsPage() {
-    return <Products />
+export default function Products() {
+    return (
+        <ToggleDashboardTable
+            dashboard={<p>Dashboard</p>}
+            table={<ProductsTable />}
+        />
+    );
 }

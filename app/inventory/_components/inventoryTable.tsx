@@ -1,8 +1,8 @@
-import { DataTableInventory } from "./dataTableInventory";
-import { columns, Inventory as InventoryType } from "./_columns/inventory";
-import { getAllProducts } from "../_actions/product";
+import { DataTableInventory } from "@/app/_components/dataTableInventory";
+import { columns, Inventory as InventoryType } from "@/app/_components/_columns/inventory";
+import { getAllProducts } from "@/app/_actions/product";
 
-export const Inventory = async () => {
+export const InventoryTable = async () => {
     const products = await getAllProducts();
 
     const data: InventoryType[] = products.map((product) => ({
@@ -14,7 +14,8 @@ export const Inventory = async () => {
                 : "success"
     }));
 
+
     return (
         <DataTableInventory columns={columns} data={data} />
     );
-};
+}
