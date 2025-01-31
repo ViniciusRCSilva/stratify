@@ -1,6 +1,6 @@
-import { Badge } from "./ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Separator } from "./ui/separator";
+import { Badge } from "../../_components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "../../_components/ui/card";
+import { Separator } from "../../_components/ui/separator";
 
 export type LowStock = {
     productName: string;

@@ -1,13 +1,13 @@
 import { AreaChartComponent } from "./areaChart";
 import { BarChartComponent } from "./barChart";
-import { DataTableSales } from "./dataTableSales";
-import { columns } from "./_columns/productSales";
+import { DataTableSales } from "../../_components/dataTableSales";
+import { columns } from "../../_components/_columns/productSales";
 import { AlertStockCard } from "./alertStockCard";
-import { getProductsWithOrders } from "../_actions/product";
-import { StatisticCard } from "./statisticCard";
-import { Separator } from "./ui/separator";
-import { cardData } from "../_helper/cardData";
-import { getInvoicesWithOrders } from "../_actions/invoice";
+import { getProductsWithOrders } from "../../_actions/product";
+import { StatisticCard } from "../../_components/statisticCard";
+import { Separator } from "../../_components/ui/separator";
+import { cardData } from "../../_helper/cardData";
+import { getInvoicesWithOrders } from "../../_actions/invoice";
 
 export default async function Dashboard() {
     const cards = await cardData();
