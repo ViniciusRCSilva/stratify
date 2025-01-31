@@ -5,12 +5,15 @@ import { moneyFormat } from "../_helper/moneyFormat";
 
 interface StatisticCardProps {
     title: string;
-    value: number;
-    percentage: number;
+    value: number | string;
+    percentage?: number;
+    isMoney?: boolean;
+    showPercentage?: boolean;
 }
 
-export function StatisticCard({ title, value, percentage }: StatisticCardProps) {
-    const isPositive = percentage > 0;
+export function StatisticCard({ title, value, percentage, isMoney = true, showPercentage = true }: StatisticCardProps) {
+    const isPositive = showPercentage && percentage && percentage > 0;
+    const valueIsMoney = typeof value === "number" ? value : 0;
 
     return (
         <Card className="h-fit">
@@ -19,20 +22,26 @@ export function StatisticCard({ title, value, percentage }: StatisticCardProps) 
             </CardHeader>
             <CardContent className="flex justify-between items-center p-4 lg:p-6">
                 <div className="flex flex-col gap-1 lg:gap-2">
-                    <p className="font-[family-name:var(--font-manrope)] text-xl lg:text-2xl font-bold">{moneyFormat(value)}</p>
-                    <p className="flex flex-col lg:flex-row lg:items-center gap-1 text-xs lg:text-sm text-muted-foreground">
-                        <span className={`font-[family-name:var(--font-manrope)] flex items-center gap-1 ${isPositive ? `text-success` : `text-destructive`}`}>
-                            {isPositive ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
-                            {percentage}%
-                        </span>
-                        <span className="lg:ml-1">{title === "Crescimento Mensal" ? "em relação ao mês anterior" : "em relação a ontem"}</span>
-                    </p>
+                    <p className="font-[family-name:var(--font-manrope)] text-xl lg:text-2xl font-bold">{isMoney ? moneyFormat(valueIsMoney) : value}</p>
+                    {showPercentage &&
+                        <p className="flex flex-col lg:flex-row lg:items-center gap-1 text-xs lg:text-sm text-muted-foreground">
+                            <span className={`font-[family-name:var(--font-manrope)] flex items-center gap-1 ${isPositive ? `text-success` : `text-destructive`}`}>
+                                {isPositive ? <TrendingUp size={14} /> : <TrendingDown size={14} />}
+                                {percentage}%
+                            </span>
+                            <span className="lg:ml-1">{title === "Crescimento Mensal" ? "em relação ao mês anterior" : "em relação a ontem"}</span>
+                        </p>
+                    }
                 </div>
-                {isPositive ? (
-                    <Image src="/positive_graph.svg" alt="Graph" width={80} height={80} className="opacity-80 w-[60px] h-[60px] lg:w-[80px] lg:h-[80px]" />
-                ) : (
-                    <Image src="/negative_graph.svg" alt="Graph" width={80} height={80} className="opacity-80 w-[60px] h-[60px] lg:w-[80px] lg:h-[80px]" />
-                )}
+                {showPercentage &&
+                    <>
+                        {isPositive ? (
+                            <Image src="/positive_graph.svg" alt="Graph" width={80} height={80} className="opacity-80 w-[60px] h-[60px] lg:w-[80px] lg:h-[80px]" />
+                        ) : (
+                            <Image src="/negative_graph.svg" alt="Graph" width={80} height={80} className="opacity-80 w-[60px] h-[60px] lg:w-[80px] lg:h-[80px]" />
+                        )}
+                    </>
+                }
             </CardContent>
         </Card>
     )
