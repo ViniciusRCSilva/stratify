@@ -4,19 +4,7 @@ import { ColumnDef } from "@tanstack/react-table"
 import { CellId } from "./_components/cellId"
 import { Badge } from "../ui/badge"
 import { moneyFormat } from "@/app/_helper/moneyFormat";
-
-export interface Inventory {
-    id: string;
-    name: string;
-    category: string;
-    unitPrice: number;
-    discount: number;
-    unitCost: number;
-    stock: number;
-    location: string;
-    updatedAt: Date;
-    stockStatus: "destructive" | "warning" | "success";
-}
+import { Inventory } from "@/app/_types/inventory";
 
 export const columns: ColumnDef<Inventory>[] = [
     {

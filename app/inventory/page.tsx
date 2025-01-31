@@ -1,10 +1,11 @@
 import { ToggleDashboardTable } from "@/app/_components/toggleDashboardTable";
-import { InventoryTable } from "@/app/inventory/_components/inventoryTable";
+import { InventoryTable } from "./_components/inventoryTable";
+import { InventoryDashboard } from "./_components/inventoryDashboard";
 
 export default function Inventory() {
     return (
         <ToggleDashboardTable
-            dashboard={<p>Dashboard</p>}
+            dashboard={<InventoryDashboard />}
             table={<InventoryTable />}
         />
     );

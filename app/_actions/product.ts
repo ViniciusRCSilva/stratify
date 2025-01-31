@@ -52,6 +52,29 @@ export const getProductsWithOrders = async () => {
     return productsWithOrders;
 };
 
+export const getProductStockValue = async () => {
+    const products = await getAllProducts();
+
+    const totalStockValue = products.reduce((acc, product) => acc + (product.unitCost * product.stock), 0);
+
+    return totalStockValue;
+}
+
+export const getLenghthOfProducts = async () => {
+    const products = await getAllProducts();
+    return products.length;
+}
+
+export const getLastRestockDate = async () => {
+    const products = await getAllProducts();
+    return products.sort((a, b) => b.stock - a.stock)[0].updatedAt;
+}
+
+export const getLowStockProducts = async () => {
+    const products = await getAllProducts();
+    return products.filter(product => product.stock <= 30).length;
+}
+
 /* Atualiza um produto pelo ID */
 export const updateProduct = async (
     id: string,
