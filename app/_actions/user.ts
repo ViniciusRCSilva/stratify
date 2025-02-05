@@ -13,13 +13,21 @@ export const createUser = async (data: Prisma.UserCreateInput) => {
     return db.user.create({ data: data });
 }
 
+export const updateUser = async (id: string, data: Prisma.UserUpdateInput) => {
+    return db.user.update({ where: { id }, data: data });
+}
+
 export const createOrGetUser = async (data: Prisma.UserCreateInput) => {
     if (!data.id) {
         throw new Error('User ID is required');
     }
     const existingUser = await getUser(data.id);
     if (existingUser) {
-        return existingUser;
+        return updateUser(data.id, {
+            name: data.name,
+            email: data.email,
+            avatar: data.avatar
+        });
     }
     return createUser(data);
 }
