@@ -2,6 +2,7 @@
 
 import { Button } from "@/app/_components/ui/button";
 import { Separator } from "@/app/_components/ui/separator";
+import { Loader2 } from "lucide-react";
 
 import {
     Form,
@@ -16,8 +17,6 @@ import { Input } from "@/app/_components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
-
-import { useRouter } from "next/navigation";
 import { createAccountWithEmailAndPassword } from "@/app/_services/authService";
 import { createOrGetUser } from "@/app/_actions/user";
 import { toast } from "@/app/_hooks/use-toast";
@@ -40,8 +39,11 @@ const formSchema = z.object({
     path: ["confirmPassword"],
 });
 
-export const RegisterForm = () => {
-    const router = useRouter();
+interface RegisterFormProps {
+    onSuccess?: () => void;
+}
+
+export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -51,6 +53,8 @@ export const RegisterForm = () => {
             name: "",
         },
     })
+
+    const { isSubmitting } = form.formState;
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
@@ -63,10 +67,12 @@ export const RegisterForm = () => {
                     avatar: user.photoURL || "",
                 });
                 toast({
-                    description: `Conta criada com sucesso. Redirecionando...`,
+                    description: `Conta criada com sucesso. Faça login para continuar.`,
                     duration: 5000,
                 })
-                router.push("/");
+                if (onSuccess) {
+                    onSuccess();
+                }
             }
         } catch (error) {
             console.error("Registration failed:", error);
@@ -115,7 +121,7 @@ export const RegisterForm = () => {
                             <FormItem>
                                 <FormLabel>Senha</FormLabel>
                                 <FormControl>
-                                    <Input type="password" {...field} />
+                                    <Input type="password" placeholder="Insira uma senha" {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
@@ -128,13 +134,22 @@ export const RegisterForm = () => {
                             <FormItem>
                                 <FormLabel>Confirmar Senha</FormLabel>
                                 <FormControl>
-                                    <Input type="password" {...field} />
+                                    <Input type="password" placeholder="Confirme sua senha" {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
-                    <Button type="submit" className="w-full">Criar Conta</Button>
+                    <Button
+                        type="submit"
+                        className="w-full"
+                        disabled={isSubmitting}
+                    >
+                        {isSubmitting && (
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        )}
+                        Criar Conta
+                    </Button>
                 </form>
             </Form>
         </div>

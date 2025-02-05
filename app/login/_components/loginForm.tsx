@@ -21,18 +21,18 @@ import { useRouter } from "next/navigation";
 import { loginWithEmail, loginWithGoogle } from "@/app/_services/authService";
 import { createOrGetUser, getUser } from "@/app/_actions/user";
 import { toast } from "@/app/_hooks/use-toast";
+import { Loader2 } from "lucide-react";
 
 const formSchema = z.object({
     email: z.string().email({
         message: "Por favor, insira um email válido.",
     }),
-    password: z.string().min(2, {
-        message: "Senha deve ter pelo menos 2 caracteres.",
-    }),
+    password: z.string(),
 })
 
 export const LoginForm = () => {
     const router = useRouter();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -40,6 +40,8 @@ export const LoginForm = () => {
             password: "",
         },
     })
+
+    const { isSubmitting } = form.formState;
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         try {
@@ -108,13 +110,22 @@ export const LoginForm = () => {
                             <FormItem>
                                 <FormLabel>Senha</FormLabel>
                                 <FormControl>
-                                    <Input type="password" {...field} />
+                                    <Input type="password" placeholder="********" {...field} />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
-                    <Button type="submit" className="w-full">Entrar</Button>
+                    <Button
+                        type="submit"
+                        className="w-full"
+                        disabled={isSubmitting}
+                    >
+                        {isSubmitting && (
+                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        )}
+                        Entrar
+                    </Button>
                 </form>
             </Form>
 

@@ -37,7 +37,7 @@ export default function Login() {
                         </>
                     ) : (
                         <>
-                            <RegisterForm />
+                            <RegisterForm onSuccess={() => setIsLogin(true)} />
                             <div className="flex items-center justify-center w-full">
                                 <p className="text-sm font-light">Já tenho conta!</p>
                                 <Button variant="link" onClick={() => setIsLogin(true)}>Voltar</Button>
