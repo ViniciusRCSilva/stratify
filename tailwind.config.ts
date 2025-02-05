@@ -9,6 +9,30 @@ export default {
 	],
 	theme: {
 		extend: {
+			backgroundImage: {
+				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+				'dot-pattern': 'radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px)',
+			},
+			backgroundSize: {
+				'dot-lg': '24px 24px',
+			},
+			animation: {
+				'pulse': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+				'float': 'float 15s ease-in-out infinite',
+			},
+			keyframes: {
+				pulse: {
+					'0%, 100%': { opacity: '0.5' },
+					'50%': { opacity: '0' },
+				},
+				float: {
+					'0%': { transform: 'translate(0%, 0%)' },
+					'25%': { transform: 'translate(25%, 25%)' },
+					'50%': { transform: 'translate(0%, 50%)' },
+					'75%': { transform: 'translate(-25%, 25%)' },
+					'100%': { transform: 'translate(0%, 0%)' },
+				},
+			},
 			colors: {
 				background: '#121212',
 				foreground: '#FFFFFF',

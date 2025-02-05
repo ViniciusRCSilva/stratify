@@ -2,7 +2,12 @@
 
 import { Building2, CreditCard, Grid2X2, Home, MessagesSquare, ReceiptText, Settings, ShoppingBasket } from "lucide-react"
 import Image from "next/image"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
+import Link from "next/link"
+import { useAuth } from "../_hooks/useAuth"
+import { logout } from "@/app/_services/authService"
+import { toast } from "@/app/_hooks/use-toast"
+import { getUser } from "../_actions/user"
 
 import {
     Sidebar,
@@ -18,14 +23,8 @@ import {
 } from "@/app/_components/ui/sidebar"
 
 import { NavUser } from "./navUser"
-import Link from "next/link"
 
 const data = {
-    user: {
-        name: "John Doe",
-        email: "johndoe@example.com",
-        avatar: "https://github.com/shadcn.png",
-    },
     navMain: [
         { title: "Visão Geral", url: "/", icon: Home },
         { title: "Inventário", url: "/inventory", icon: Building2 },
@@ -43,7 +42,33 @@ const data = {
 }
 
 export function MenuSidebar() {
+    const { user } = useAuth()
     const pathname = usePathname()
+    const router = useRouter()
+
+    if (!user) return null
+
+    const getCurrentUser = async () => {
+        return getUser(user.uid)
+    }
+
+    const signOut = async () => {
+        try {
+            await logout()
+            toast({
+                description: "Até breve!",
+                duration: 5000,
+            })
+            router.push("/login")
+        } catch (error) {
+            console.log(error)
+            toast({
+                variant: "destructive",
+                description: "Algo deu errado.",
+            })
+        }
+    }
+
     return (
         <Sidebar className="border-r border-white/20" collapsible="icon">
             <SidebarContent>
@@ -115,7 +140,10 @@ export function MenuSidebar() {
                 </SidebarGroup>
             </SidebarContent>
             <SidebarFooter>
-                <NavUser user={data.user} />
+                <NavUser
+                    user={getCurrentUser}
+                    signOut={signOut}
+                />
             </SidebarFooter>
         </Sidebar>
     )

@@ -8,11 +8,16 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
+  id        String    @id
+  email     String    @unique
   name      String
-  plan      PLAN     @default(FREE)
-  createdAt DateTime @default(now())
+  avatar    String?
+  plan      PLAN      @default(FREE)
+  createdAt DateTime  @default(now())
+  products  Product[]
+  clients   Client[]
+  orders    Order[]
+  invoices  Invoice[]
 }
 
 model Product {
@@ -26,6 +31,8 @@ model Product {
   location  String
   updatedAt DateTime    @updatedAt
   orderItem OrderItem[]
+  userId    String
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("products")
 }
@@ -40,6 +47,8 @@ model Order {
   createdAt     DateTime       @default(now())
   orderItems    OrderItem[]
   invoiceId     Invoice?
+  userId        String
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("orders")
 }
@@ -63,6 +72,8 @@ model Client {
   phone     String?
   createdAt DateTime @default(now())
   orders    Order[]
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("clients")
 }
@@ -74,6 +85,8 @@ model Invoice {
   totalAmount   Float
   paymentMethod PAYMENT_METHOD
   issueDate     DateTime       @default(now())
+  userId        String
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("invoices")
 }

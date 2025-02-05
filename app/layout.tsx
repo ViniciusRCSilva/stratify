@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import { Josefin_Sans, Manrope } from "next/font/google";
 import "./globals.css";
-import { SidebarProvider } from "./_components/ui/sidebar";
-import { MenuSidebar } from "./_components/menuSidebar";
+import { Toaster } from "@/app/_components/ui/toaster";
 
 const josefinSans = Josefin_Sans({
   variable: "--font-josefin-sans",
@@ -29,10 +28,8 @@ export default function RootLayout({
       <body
         className={`${josefinSans.variable} ${manrope.variable} antialiased bg-background`}
       >
-        <SidebarProvider className="font-[family-name:var(--font-josefin-sans)]">
-          <MenuSidebar />
-          {children}
-        </SidebarProvider>
+        {children}
+        <Toaster />
       </body>
     </html>
   );
