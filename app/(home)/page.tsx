@@ -1,9 +1,5 @@
-/* import Dashboard from "./_components/dashboard"; */
+import Dashboard from "./_components/dashboard";
 
-export default function Home() {
-  return (
-    <>
-      {/* <Dashboard /> */}
-    </>
-  );
+export default async function Home() {
+  return <Dashboard />;
 }

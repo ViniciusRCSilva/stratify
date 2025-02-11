@@ -14,25 +14,27 @@ import {
     getLowStockProducts,
 } from "../_actions/product";
 
-async function getData() {
+async function getData(userId?: string) {
     const [todayTotalSales, todayTotalSalesPercentage, todayProfit, todayProfitPercentage, monthlySales, monthlySalesPercentage, lengthOfProducts, totalInventoryValue, lastRestockDate, lowStockProducts] = await Promise.all([
-        getTotalTodaySales(),
-        getTodayPercentageComparison(),
-        getTodayProfit(),
-        getTodayProfitPercentageComparison(),
-        getTotalCurrentMonthSales(),
-        getMonthPercentageComparison(),
-        getLenghthOfProducts(),
-        getProductStockValue(),
-        getLastRestockDate(),
-        getLowStockProducts(),
+        getTotalTodaySales(userId),
+        getTodayPercentageComparison(userId),
+        getTodayProfit(userId),
+        getTodayProfitPercentageComparison(userId),
+        getTotalCurrentMonthSales(userId),
+        getMonthPercentageComparison(userId),
+        getLenghthOfProducts(userId),
+        getProductStockValue(userId),
+        getLastRestockDate(userId),
+        getLowStockProducts(userId),
     ]);
 
     return { todayTotalSales, todayTotalSalesPercentage, todayProfit, todayProfitPercentage, monthlySales, monthlySalesPercentage, lengthOfProducts, totalInventoryValue, lastRestockDate, lowStockProducts };
 };
 
-export async function cardData() {
-    const { todayTotalSales, todayTotalSalesPercentage, todayProfit, todayProfitPercentage, monthlySales, monthlySalesPercentage } = await getData();
+export async function cardData(userId?: string) {
+    if (!userId) return [];
+
+    const { todayTotalSales, todayTotalSalesPercentage, todayProfit, todayProfitPercentage, monthlySales, monthlySalesPercentage } = await getData(userId);
 
     return [
         {
@@ -53,8 +55,14 @@ export async function cardData() {
     ];
 }
 
-export async function InventoryCardData() {
-    const { lengthOfProducts, totalInventoryValue, lastRestockDate, lowStockProducts } = await getData();
+export async function InventoryCardData(userId?: string) {
+    if (!userId) return [];
+
+    const { lengthOfProducts, totalInventoryValue, lastRestockDate, lowStockProducts } = await getData(userId);
+
+    if (lastRestockDate === null) {
+        return "Nenhum restoque realizado"
+    }
 
     return [
         {

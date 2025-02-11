@@ -49,7 +49,8 @@ export function MenuSidebar() {
     if (!user) return null
 
     const getCurrentUser = async () => {
-        return getUser(user.uid)
+        const currentUser = await getUser(user.uid)
+        return currentUser
     }
 
     const signOut = async () => {

@@ -19,6 +19,11 @@ export function AlertStockCard({ lowStock }: AlertStockCardProps) {
                 <p className="text-sm lg:text-base text-muted-foreground">Principais produtos com estoque baixo</p>
             </CardHeader>
             <CardContent>
+                {lowStock.length === 0 && (
+                    <div className="bg-background p-4 rounded-md flex items-center justify-center">
+                        <p className="text-sm">Nenhum produto com estoque baixo</p>
+                    </div>
+                )}
                 <ul className="space-y-2">
                     {lowStock.map((item, index) => (
                         <li key={index}>

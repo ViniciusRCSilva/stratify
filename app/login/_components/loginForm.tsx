@@ -68,12 +68,13 @@ export const LoginForm = () => {
             if (user) {
                 await createOrGetUser({
                     id: user.uid,
-                    name: user.displayName || "User",
+                    name: user.displayName || "",
                     email: user.email || "",
                     avatar: user.photoURL || "",
                 });
+                const currentUser = await getUser(user.uid);
                 toast({
-                    description: `Bem-vindo, ${user.displayName}`,
+                    description: `Bem-vindo, ${currentUser?.name}`,
                     duration: 5000,
                 })
                 router.push("/");

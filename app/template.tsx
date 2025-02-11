@@ -7,6 +7,7 @@ import { MenuSidebar } from "./_components/menuSidebar";
 import { useAuth } from "./_hooks/useAuth";
 import { useEffect, useState } from "react";
 import { Loading } from "./_components/loading";
+import React from "react";
 
 const pageTitles: { [key: string]: string } = {
     "/": "Visão Geral",

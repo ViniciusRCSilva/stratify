@@ -6,7 +6,7 @@ import {
     ChevronRight,
     CreditCard,
     LogOut,
-    Sparkles,
+    UserCircle2,
 } from "lucide-react"
 
 import {
@@ -66,7 +66,12 @@ export function NavUser({
                                 <AvatarFallback className="rounded-lg">{userData.name?.charAt(0)}</AvatarFallback>
                             </Avatar>
                             <div className="grid flex-1 text-left text-sm leading-tight">
-                                <span className="truncate font-semibold">{userData.name}</span>
+                                <div className="flex items-center gap-2">
+                                    <span className="truncate font-semibold">{userData.name}</span>
+                                    {userData.plan === "PRO" && (
+                                        <BadgeCheck className="w-4 h-4 text-white" fill="rgb(122 162 247 / var(--tw-text-opacity, 1))" />
+                                    )}
+                                </div>
                                 <span className="truncate text-xs text-muted-foreground">{userData.email}</span>
                             </div>
                             <ChevronRight className="ml-auto size-4" />
@@ -85,22 +90,36 @@ export function NavUser({
                                     <AvatarFallback className="rounded-lg">{userData.name?.charAt(0)}</AvatarFallback>
                                 </Avatar>
                                 <div className="grid flex-1 text-left text-sm leading-tight">
-                                    <span className="truncate font-semibold">{userData.name}</span>
+                                    <div className="flex items-center gap-2">
+                                        <span className="truncate font-semibold">{userData.name}</span>
+                                        {userData.plan === "PRO" && (
+                                            <BadgeCheck className="w-4 h-4 text-white" fill="rgb(122 162 247 / var(--tw-text-opacity, 1))" />
+                                        )}
+                                    </div>
                                     <span className="truncate text-xs text-muted-foreground">{userData.email}</span>
                                 </div>
                             </div>
                         </DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuGroup>
-                            <DropdownMenuItem>
-                                <Sparkles />
-                                Torne-se Pro
-                            </DropdownMenuItem>
-                        </DropdownMenuGroup>
+                        {userData.plan === "FREE" ? (
+                            <DropdownMenuGroup>
+                                <DropdownMenuItem>
+                                    <BadgeCheck />
+                                    Torne-se Pro
+                                </DropdownMenuItem>
+                            </DropdownMenuGroup>
+                        ) : (
+                            <DropdownMenuGroup>
+                                <DropdownMenuItem>
+                                    <BadgeCheck className="w-4 h-4 text-white" fill="rgb(122 162 247 / var(--tw-text-opacity, 1))" />
+                                    Usuário Pro
+                                </DropdownMenuItem>
+                            </DropdownMenuGroup>
+                        )}
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
                             <DropdownMenuItem>
-                                <BadgeCheck />
+                                <UserCircle2 />
                                 Minha conta
                             </DropdownMenuItem>
                             <DropdownMenuItem>

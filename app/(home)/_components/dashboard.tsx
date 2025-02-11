@@ -8,11 +8,19 @@ import { StatisticCard } from "../../_components/statisticCard";
 import { Separator } from "../../_components/ui/separator";
 import { cardData } from "../../_helper/cardData";
 import { getInvoicesWithOrders } from "../../_actions/invoice";
+import { getCurrentUser } from "../../_utils/authServer";
+import { redirect } from "next/navigation";
 
 export default async function Dashboard() {
-    const cards = await cardData();
-    const products = await getProductsWithOrders();
-    const invoices = await getInvoicesWithOrders();
+    const userId = await getCurrentUser();
+
+    if (!userId) {
+        redirect("/login");
+    };
+
+    const cards = await cardData(userId);
+    const products = await getProductsWithOrders(userId);
+    const invoices = await getInvoicesWithOrders(userId);
 
     const dataTableSales = products.map((product) => ({
         ...product,

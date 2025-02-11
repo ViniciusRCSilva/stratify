@@ -1,3 +1,5 @@
+'use server';
+
 import { Prisma } from "@prisma/client";
 import { db } from "../_lib/prisma";
 
@@ -7,18 +9,25 @@ export const createInvoice = async (data: Prisma.InvoiceCreateInput) => {
 };
 
 /* Busca todas as faturas */
-export const getAllInvoices = async () => {
-    return db.invoice.findMany();
+export const getAllInvoices = async (userId?: string) => {
+    return db.invoice.findMany({
+        where: {
+            userId
+        }
+    });
 };
 
 /* Busca uma fatura pelo ID */
-export const getInvoiceById = async (invoiceId: string) => {
-    return db.invoice.findUnique({ where: { id: invoiceId } });
+export const getInvoiceById = async (invoiceId: string, userId?: string) => {
+    return db.invoice.findUnique({ where: { id: invoiceId, userId } });
 };
 
 /* Busca as faturas com pedidos */
-export const getInvoicesWithOrders = async () => {
+export const getInvoicesWithOrders = async (userId?: string) => {
     return db.invoice.findMany({
+        where: {
+            userId
+        },
         include: {
             order: {
                 include: {
@@ -34,36 +43,38 @@ export const getInvoicesWithOrders = async () => {
 };
 
 /* Busca as vendas de hoje */
-export const getTodaySales = async () => {
+export const getTodaySales = async (userId?: string) => {
     return db.invoice.findMany({
         where: {
             issueDate: {
                 gte: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
                 lte: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() + 1),
             },
+            userId
         },
     });
 };
 
 /* Busca o total de vendas de hoje */
-export const getTotalTodaySales = async () => {
-    const todaySales = await getTodaySales();
+export const getTotalTodaySales = async (userId?: string) => {
+    const todaySales = await getTodaySales(userId);
     const todayTotal = todaySales.reduce((acc, invoice) => acc + invoice.totalAmount, 0);
 
     return todayTotal;
 };
 
 /* Busca o percentual de crescimento de vendas de hoje em relação ao dia anterior */
-export const getTodayPercentageComparison = async () => {
+export const getTodayPercentageComparison = async (userId?: string) => {
     const lastDaySales = await db.invoice.findMany({
         where: {
             issueDate: {
                 gte: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 1),
                 lte: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
             },
-        },
+            userId
+        }
     });
-    const todayTotal = await getTotalTodaySales();
+    const todayTotal = await getTotalTodaySales(userId);
 
     if (todayTotal === 0) {
         return 0;
@@ -76,13 +87,13 @@ export const getTodayPercentageComparison = async () => {
 };
 
 /* Busca o lucro de hoje */
-export const getTodayProfit = async () => {
-    const todayInvoices = await getTodaySales();
+export const getTodayProfit = async (userId?: string) => {
+    const todayInvoices = await getTodaySales(userId);
     let totalProfit = 0;
 
     for (const invoice of todayInvoices) {
         const order = await db.order.findUnique({
-            where: { id: invoice.orderId },
+            where: { id: invoice.orderId, userId },
             include: {
                 orderItems: {
                     include: {
@@ -108,13 +119,14 @@ export const getTodayProfit = async () => {
 };
 
 /* Busca o lucro de ontem */
-export const getYesterdayProfit = async () => {
+export const getYesterdayProfit = async (userId?: string) => {
     const yesterdayInvoices = await db.invoice.findMany({
         where: {
             issueDate: {
                 gte: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate() - 1),
                 lte: new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()),
             },
+            userId
         },
     });
     let totalProfit = 0;
@@ -147,42 +159,43 @@ export const getYesterdayProfit = async () => {
 };
 
 /* Busca a porcentagem de crescimento de lucro de hoje em relação ao dia anterior */
-export const getTodayProfitPercentageComparison = async () => {
-    const todayProfit = await getTodayProfit();
+export const getTodayProfitPercentageComparison = async (userId?: string) => {
+    const todayProfit = await getTodayProfit(userId);
 
     if (todayProfit === 0) {
         return 0;
     }
 
-    const yesterdayProfit = await getYesterdayProfit();
+    const yesterdayProfit = await getYesterdayProfit(userId);
     const percentage = ((todayProfit - yesterdayProfit) / yesterdayProfit) * 100;
 
     return percentage.toFixed(2);
 };
 
 /* Busca as vendas do mês atual */
-export const getCurrentMonthSales = async () => {
+export const getCurrentMonthSales = async (userId?: string) => {
     return db.invoice.findMany({
         where: {
             issueDate: {
                 gte: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
                 lte: new Date(new Date().getFullYear(), new Date().getMonth() + 1, 1),
             },
+            userId
         },
     });
 };
 
 /* Busca o total de vendas do mês atual */
-export const getTotalCurrentMonthSales = async () => {
-    const currentMonthSales = await getCurrentMonthSales();
+export const getTotalCurrentMonthSales = async (userId?: string) => {
+    const currentMonthSales = await getCurrentMonthSales(userId);
     const currentMonthTotal = currentMonthSales.reduce((acc, invoice) => acc + invoice.totalAmount, 0);
 
     return currentMonthTotal;
 };
 
 /* Busca o percentual de crescimento do mês atual em relação ao mês anterior */
-export const getMonthPercentageComparison = async () => {
-    const currentMonthTotal = await getTotalCurrentMonthSales();
+export const getMonthPercentageComparison = async (userId?: string) => {
+    const currentMonthTotal = await getTotalCurrentMonthSales(userId);
 
     if (currentMonthTotal === 0) {
         return 0;
@@ -194,6 +207,7 @@ export const getMonthPercentageComparison = async () => {
                 gte: new Date(new Date().getFullYear(), new Date().getMonth() - 1, 1),
                 lte: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
             },
+            userId
         },
     });
 

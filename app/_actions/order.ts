@@ -9,8 +9,11 @@ export const createOrder = async (data: Prisma.OrderCreateInput) => {
 };
 
 /* Busca todos os pedidos */
-export const getAllOrders = async () => {
+export const getAllOrders = async (userId?: string) => {
     return db.order.findMany({
+        where: {
+            userId: userId
+        },
         include: {
             orderItems: {
                 include: {
@@ -21,10 +24,11 @@ export const getAllOrders = async () => {
     });
 };
 
-export const getOrdersThereIsCompleted = async () => {
+export const getOrdersThereIsCompleted = async (userId?: string) => {
     return db.order.findMany({
         where: {
-            status: ORDER_STATUS.COMPLETED
+            status: ORDER_STATUS.COMPLETED,
+            userId: userId
         },
         include: {
             orderItems: {
@@ -37,9 +41,9 @@ export const getOrdersThereIsCompleted = async () => {
 };
 
 /* Busca um pedido pelo ID */
-export const getOrderById = async (orderId: string) => {
+export const getOrderById = async (orderId: string, userId?: string) => {
     return db.order.findUnique({
-        where: { id: orderId },
+        where: { id: orderId, userId },
         include: {
             orderItems: {
                 include: {
@@ -51,9 +55,9 @@ export const getOrderById = async (orderId: string) => {
 };
 
 /* Atualiza o status do pedido */
-export const updateOrderStatus = async (orderId: string, status: ORDER_STATUS, paymentMethod: PAYMENT_METHOD) => {
+export const updateOrderStatus = async (orderId: string, status: ORDER_STATUS, paymentMethod: PAYMENT_METHOD, userId?: string) => {
     const order = await db.order.update({
-        where: { id: orderId },
+        where: { id: orderId, userId },
         data: { status },
         include: {
             orderItems: {
@@ -87,6 +91,11 @@ export const updateOrderStatus = async (orderId: string, status: ORDER_STATUS, p
                 connect: {
                     id: orderId
                 }
+            },
+            user: {
+                connect: {
+                    id: userId
+                }
             }
         });
     }
@@ -96,7 +105,7 @@ export const updateOrderStatus = async (orderId: string, status: ORDER_STATUS, p
 };
 
 /* Deleta um pedido */
-export const deleteOrder = async (orderId: string) => {
+export const deleteOrder = async (orderId: string, userId?: string) => {
     /* Quando o pedido for deletado, deleta-se a fatura automaticamente */
-    return db.order.delete({ where: { id: orderId } });
+    return db.order.delete({ where: { id: orderId, userId } });
 };
