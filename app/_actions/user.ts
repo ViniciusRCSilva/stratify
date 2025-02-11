@@ -23,11 +23,7 @@ export const createOrGetUser = async (data: Prisma.UserCreateInput) => {
     }
     const existingUser = await getUser(data.id);
     if (existingUser) {
-        return updateUser(data.id, {
-            name: data.name,
-            email: data.email,
-            avatar: data.avatar
-        });
+        return existingUser
     }
     return createUser(data);
 }

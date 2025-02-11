@@ -14,10 +14,11 @@ export function useAuth(): AuthState {
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+        const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
             setUser(currentUser);
             setLoading(false);
         });
+
         return () => unsubscribe();
     }, []);
 
