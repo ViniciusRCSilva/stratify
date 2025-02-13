@@ -9,6 +9,7 @@ export interface Inventory {
     location: string;
     updatedAt: Date;
     stockStatus: "destructive" | "warning" | "success";
+    userId: string;
 }
 
 export interface InventoryForCard extends Inventory {
