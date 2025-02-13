@@ -3,9 +3,10 @@ import { InventoryCardData } from "@/app/_helper/cardData";
 import { BarChartInventoryStockByLocation } from "./barChart";
 import { PizzaChartTotalCostByCategory } from "./pizzaChart";
 import { LineChartLowStockProducts } from "./lineChart";
+import { User } from "@/app/_types/user";
 
-export const InventoryDashboard = async () => {
-    const cardData = await InventoryCardData();
+export const InventoryDashboard = async ({ id }: User) => {
+    const cardData = await InventoryCardData(id);
 
     return (
         <>

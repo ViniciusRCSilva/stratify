@@ -1,8 +1,12 @@
+"use server";
+
 import { Prisma } from "@prisma/client";
 import { db } from "../_lib/prisma";
+import { revalidatePath } from "next/cache";
 
 /* Cria um produto */
 export const createProduct = async (data: Prisma.ProductCreateInput) => {
+    revalidatePath("/inventory")
     return db.product.create({ data: data });
 };
 
@@ -93,10 +97,12 @@ export const updateProduct = async (
     data: Prisma.ProductUpdateInput,
     userId?: string
 ) => {
+    revalidatePath("/inventory")
     return db.product.update({ where: { id, userId }, data: data });
 };
 
 /* Deleta um produto pelo ID */
 export const deleteProduct = async (id: string, userId?: string) => {
+    revalidatePath("/inventory")
     return db.product.delete({ where: { id, userId } });
 };
