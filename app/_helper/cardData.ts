@@ -60,32 +60,28 @@ export async function InventoryCardData(userId?: string) {
 
     const { lengthOfProducts, totalInventoryValue, lastRestockDate, lowStockProducts } = await getData(userId);
 
-    if (lastRestockDate === null) {
-        return "Nenhum restoque realizado"
-    }
-
     return [
         {
             title: "Custo total do inventário",
-            value: totalInventoryValue,
+            value: !totalInventoryValue ? 0 : totalInventoryValue,
             isMoney: true,
             showPercentage: false
         },
         {
             title: "Quantidade de produtos",
-            value: lengthOfProducts,
+            value: !lengthOfProducts ? 0 : lengthOfProducts,
             isMoney: false,
             showPercentage: false
         },
         {
             title: "Quantidade de produtos com estoque baixo",
-            value: lowStockProducts,
+            value: !lowStockProducts ? 0 : lowStockProducts,
             isMoney: false,
             showPercentage: false
         },
         {
             title: "Último reabastecimento",
-            value: lastRestockDate.toLocaleDateString(),
+            value: !lastRestockDate ? "Nenhum restoque realizado" : lastRestockDate.toLocaleDateString(),
             isMoney: false,
             showPercentage: false
         },
