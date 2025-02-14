@@ -41,7 +41,7 @@ export const DeleteProductDialog = ({
                 description: (
                     <div className="flex items-center gap-2">
                         <div className="h-2 w-2 rounded-full bg-destructive" />
-                        <span>Produto deletado com sucesso.</span>
+                        <span>Produto excluído com sucesso.</span>
                     </div>
                 ),
                 className: "border-2 border-destructive/20 bg-destructive/10",
@@ -54,7 +54,7 @@ export const DeleteProductDialog = ({
                 description: (
                     <div className="flex items-center gap-2">
                         <div className="h-2 w-2 rounded-full bg-destructive" />
-                        <span>Erro ao deletar o produto. Tente novamente.</span>
+                        <span>Erro ao excluir o produto. Tente novamente.</span>
                     </div>
                 ),
                 className: "border-2 border-destructive/20 bg-destructive/10",
@@ -75,10 +75,10 @@ export const DeleteProductDialog = ({
                 <DialogHeader className="space-y-4">
                     <div className="flex items-center gap-2 text-destructive">
                         <AlertTriangle className="h-6 w-6" />
-                        <DialogTitle className="text-xl">Deletar Produto</DialogTitle>
+                        <DialogTitle className="text-xl">Excluir Produto</DialogTitle>
                     </div>
                     <DialogDescription className="text-base">
-                        Tem certeza que deseja deletar o produto <span className="font-semibold text-foreground">{productName}</span>?
+                        Tem certeza que deseja excluir o produto <span className="font-semibold text-foreground">{productName}</span>?
                     </DialogDescription>
                 </DialogHeader>
 
@@ -88,7 +88,7 @@ export const DeleteProductDialog = ({
                         Aviso: Esta ação não pode ser desfeita
                     </p>
                     <p className="mt-2 text-muted-foreground text-sm">
-                        Ao deletar o produto, todos os dados relacionados a ele serão perdidos permanentemente.
+                        Ao excluir o produto, todos os dados relacionados a ele serão perdidos permanentemente.
                     </p>
                 </div>
 
@@ -114,12 +114,12 @@ export const DeleteProductDialog = ({
                         {loading ? (
                             <span className="flex items-center justify-center gap-2">
                                 <Loader2 className="h-4 w-4 animate-spin" />
-                                Deletando...
+                                Excluindo...
                             </span>
                         ) : (
                             <span className="flex items-center justify-center gap-2">
                                 <Trash className="h-4 w-4" />
-                                Deletar produto
+                                Excluir
                             </span>
                         )}
                     </Button>
