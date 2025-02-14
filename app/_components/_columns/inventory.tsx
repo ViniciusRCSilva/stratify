@@ -10,6 +10,12 @@ import { Button } from "../ui/button";
 import { ArrowUpDown, EditIcon, TrashIcon } from "lucide-react";
 import { EditProductDialog } from "@/app/inventory/_components/editProductDialog";
 import { DeleteProductDialog } from "@/app/inventory/_components/deleteProductDialog";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/app/_components/ui/tooltip"
 
 export const columns: ColumnDef<Inventory>[] = [
     {
@@ -197,12 +203,33 @@ export const columns: ColumnDef<Inventory>[] = [
 
             return (
                 <div className="flex justify-end gap-2">
-                    <Button variant="warning" size="icon" onClick={() => setIsEditing(true)}>
-                        <EditIcon className="h-4 w-4" />
-                    </Button>
-                    <Button variant="destructive" size="icon" onClick={() => setIsDeleting(true)}>
-                        <TrashIcon className="h-4 w-4" />
-                    </Button>
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button variant="warning" size="icon" onClick={() => setIsEditing(true)}>
+                                    <EditIcon className="h-4 w-4" />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p className="text-warning">Editar</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button variant="destructive" size="icon" onClick={() => setIsDeleting(true)}>
+                                    <TrashIcon className="h-4 w-4" />
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p className="text-destructive">Excluir</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+
+
 
                     <EditProductDialog
                         open={isEditing}
