@@ -2,6 +2,7 @@
 
 import { TrendingUp } from "lucide-react"
 import { Bar, BarChart, XAxis, YAxis } from "recharts"
+import { useEffect, useState } from "react"
 
 import {
     Card,
@@ -17,46 +18,64 @@ import {
     ChartTooltip,
     ChartTooltipContent,
 } from "@/app/_components/ui/chart"
-const chartData = [
-    { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-    { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-    { browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
-    { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-    { browser: "other", visitors: 90, fill: "var(--color-other)" },
-]
+import { getStockByLocation } from "@/app/_actions/inventory"
 
-const chartConfig = {
-    visitors: {
-        label: "Visitors",
-    },
-    chrome: {
-        label: "Chrome",
-        color: "hsl(var(--chart-1))",
-    },
-    safari: {
-        label: "Safari",
-        color: "hsl(var(--chart-2))",
-    },
-    firefox: {
-        label: "Firefox",
-        color: "hsl(var(--chart-3))",
-    },
-    edge: {
-        label: "Edge",
-        color: "hsl(var(--chart-4))",
-    },
-    other: {
-        label: "Other",
-        color: "hsl(var(--chart-5))",
-    },
-} satisfies ChartConfig
+interface StockData {
+    location: string
+    stock: number
+}
 
-export function BarChartInventoryStockByLocation() {
+export function BarChartInventoryStockByLocation({ userId }: { userId: string }) {
+    const [chartData, setChartData] = useState<StockData[]>([])
+    const [isLoading, setIsLoading] = useState(true)
+
+    useEffect(() => {
+        async function loadData() {
+            try {
+                const data = await getStockByLocation(userId)
+                setChartData(data)
+            } catch (error) {
+                console.error("Erro ao carregar dados do estoque:", error)
+            } finally {
+                setIsLoading(false)
+            }
+        }
+
+        loadData()
+    }, [userId])
+
+    const chartConfig = {
+        stock: {
+            label: "Quantidade",
+            color: "hsl(var(--chart-1))"
+        },
+        ...Object.fromEntries(
+            chartData.map(item => [
+                item.location,
+                {
+                    label: item.location,
+                    color: "hsl(var(--chart-1))"
+                }
+            ])
+        )
+    } satisfies ChartConfig
+
+    if (isLoading) {
+        return (
+            <Card>
+                <CardHeader>
+                    <CardTitle>Estoque por local</CardTitle>
+                    <CardDescription>Carregando...</CardDescription>
+                </CardHeader>
+            </Card>
+        )
+    }
+
     return (
         <Card>
             <CardHeader>
                 <CardTitle>Estoque por local</CardTitle>
-                <CardDescription>January - June 2024</CardDescription>
+                <CardDescription>Quantidade de itens por localização</CardDescription>
             </CardHeader>
             <CardContent>
                 <ChartContainer config={chartConfig}>
@@ -69,30 +88,24 @@ export function BarChartInventoryStockByLocation() {
                         }}
                     >
                         <YAxis
-                            dataKey="browser"
+                            dataKey="location"
                             type="category"
                             tickLine={false}
                             tickMargin={10}
                             axisLine={false}
-                            tickFormatter={(value) =>
-                                chartConfig[value as keyof typeof chartConfig]?.label
-                            }
                         />
-                        <XAxis dataKey="visitors" type="number" hide />
+                        <XAxis dataKey="stock" type="number" hide />
                         <ChartTooltip
                             cursor={false}
                             content={<ChartTooltipContent hideLabel />}
                         />
-                        <Bar dataKey="visitors" layout="vertical" radius={5} />
+                        <Bar dataKey="stock" layout="vertical" radius={5} fill="hsl(var(--chart-1))" />
                     </BarChart>
                 </ChartContainer>
             </CardContent>
             <CardFooter className="flex-col items-start gap-2 text-sm">
-                <div className="flex gap-2 font-medium leading-none">
-                    Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-                </div>
                 <div className="leading-none text-muted-foreground">
-                    Showing total visitors for the last 6 months
+                    Mostrando a quantidade total de itens em cada localização
                 </div>
             </CardFooter>
         </Card>

@@ -33,6 +33,10 @@ body {
     --chart-2: 212 95% 68%;
     --chart-3: 216 92% 60%;
     --chart-4: 210 98% 78%;
+    --chart-5: 212 97% 87%;
+    --chart-6: 217 96% 91%;
+    --chart-7: 224 97% 95%;
+    --chart-8: 220 97% 98%;
     --radius: 0.5rem;
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -71,6 +75,9 @@ body {
     --chart-3: 216 92% 60%;
     --chart-4: 210 98% 78%;
     --chart-5: 212 97% 87%;
+    --chart-6: 217 96% 91%;
+    --chart-7: 224 97% 95%;
+    --chart-8: 220 97% 98%;
     --sidebar-background: 240 5.9% 10%;
     --sidebar-foreground: 240 4.8% 95.9%;
     --sidebar-primary: 224.3 76.3% 48%;

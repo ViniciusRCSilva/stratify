@@ -1,7 +1,7 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
-import { CartesianGrid, LabelList, Line, LineChart, XAxis } from "recharts"
+import { CartesianGrid, LabelList, Line, LineChart, XAxis, YAxis } from "recharts"
+import { useEffect, useState } from "react"
 
 import {
     Card,
@@ -15,34 +15,56 @@ import {
     ChartConfig,
     ChartContainer,
     ChartTooltip,
-    ChartTooltipContent,
 } from "@/app/_components/ui/chart"
-const chartData = [
-    { month: "January", desktop: 186, mobile: 80 },
-    { month: "February", desktop: 305, mobile: 200 },
-    { month: "March", desktop: 237, mobile: 120 },
-    { month: "April", desktop: 73, mobile: 190 },
-    { month: "May", desktop: 209, mobile: 130 },
-    { month: "June", desktop: 214, mobile: 140 },
-]
+import { getLowStockProducts } from "@/app/_actions/inventory"
 
-const chartConfig = {
-    desktop: {
-        label: "Desktop",
-        color: "hsl(var(--chart-1))",
-    },
-    mobile: {
-        label: "Mobile",
-        color: "hsl(var(--chart-2))",
-    },
-} satisfies ChartConfig
+interface LowStockProduct {
+    name: string
+    stock: number
+}
 
-export function LineChartLowStockProducts() {
+export function LineChartLowStockProducts({ userId }: { userId: string }) {
+    const [chartData, setChartData] = useState<LowStockProduct[]>([])
+    const [isLoading, setIsLoading] = useState(true)
+
+    useEffect(() => {
+        async function loadData() {
+            try {
+                const data = await getLowStockProducts(userId)
+                setChartData(data)
+            } catch (error) {
+                console.error("Erro ao carregar dados de produtos:", error)
+            } finally {
+                setIsLoading(false)
+            }
+        }
+
+        loadData()
+    }, [userId])
+
+    const chartConfig = {
+        stock: {
+            label: "Quantidade",
+            color: "hsl(var(--chart-1))"
+        }
+    } satisfies ChartConfig
+
+    if (isLoading) {
+        return (
+            <Card>
+                <CardHeader>
+                    <CardTitle>Produtos com estoque baixo</CardTitle>
+                    <CardDescription>Carregando...</CardDescription>
+                </CardHeader>
+            </Card>
+        )
+    }
+
     return (
         <Card>
             <CardHeader>
                 <CardTitle>Produtos com estoque baixo</CardTitle>
-                <CardDescription>January - June 2024</CardDescription>
+                <CardDescription>Produtos com menos de 10 unidades em estoque</CardDescription>
             </CardHeader>
             <CardContent>
                 <ChartContainer config={chartConfig}>
@@ -57,29 +79,47 @@ export function LineChartLowStockProducts() {
                     >
                         <CartesianGrid vertical={false} />
                         <XAxis
-                            dataKey="month"
+                            dataKey="name"
                             tickLine={false}
                             axisLine={false}
                             tickMargin={8}
-                            tickFormatter={(value) => value.slice(0, 3)}
+                            interval={0}
+                            angle={-45}
+                            textAnchor="end"
+                            height={60}
+                        />
+                        <YAxis
+                            tickLine={false}
+                            axisLine={false}
+                            tickMargin={8}
                         />
                         <ChartTooltip
                             cursor={false}
-                            content={<ChartTooltipContent indicator="line" />}
+                            content={({ payload }) => {
+                                if (!payload?.[0]?.payload) return null
+                                const { name, stock } = payload[0].payload
+                                return (
+                                    <div className="rounded-lg bg-background p-2 shadow-md">
+                                        <div className="font-medium">{name}</div>
+                                        <div>Estoque: {stock}</div>
+                                    </div>
+                                )
+                            }}
                         />
                         <Line
-                            dataKey="desktop"
-                            type="natural"
-                            stroke="var(--color-desktop)"
+                            type="monotone"
+                            dataKey="stock"
+                            stroke="hsl(var(--chart-1))"
                             strokeWidth={2}
                             dot={{
-                                fill: "var(--color-desktop)",
+                                fill: "hsl(var(--chart-1))",
                             }}
                             activeDot={{
                                 r: 6,
                             }}
                         >
                             <LabelList
+                                dataKey="stock"
                                 position="top"
                                 offset={12}
                                 className="fill-foreground"
@@ -90,11 +130,8 @@ export function LineChartLowStockProducts() {
                 </ChartContainer>
             </CardContent>
             <CardFooter className="flex-col items-start gap-2 text-sm">
-                <div className="flex gap-2 font-medium leading-none">
-                    Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
-                </div>
                 <div className="leading-none text-muted-foreground">
-                    Showing total visitors for the last 6 months
+                    Produtos que precisam de reposição em breve
                 </div>
             </CardFooter>
         </Card>

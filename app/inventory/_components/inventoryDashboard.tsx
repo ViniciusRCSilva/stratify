@@ -22,9 +22,9 @@ export const InventoryDashboard = async ({ id }: User) => {
                 ))}
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                <BarChartInventoryStockByLocation />
-                <PizzaChartTotalCostByCategory />
-                <LineChartLowStockProducts />
+                <BarChartInventoryStockByLocation userId={id} />
+                <PizzaChartTotalCostByCategory userId={id} />
+                <LineChartLowStockProducts userId={id} />
             </div>
         </>
     )

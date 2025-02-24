@@ -1,7 +1,7 @@
 "use client"
 
-import { TrendingUp } from "lucide-react"
 import { Pie, PieChart } from "recharts"
+import { useEffect, useState, useMemo } from "react"
 
 import {
     Card,
@@ -15,49 +15,89 @@ import {
     ChartConfig,
     ChartContainer,
     ChartTooltip,
-    ChartTooltipContent,
 } from "@/app/_components/ui/chart"
+import { getTotalCostByCategory } from "@/app/_actions/inventory"
+import { moneyFormat } from "@/app/_helper/moneyFormat"
 
-const chartData = [
-    { browser: "chrome", visitors: 275, fill: "var(--color-chrome)" },
-    { browser: "safari", visitors: 200, fill: "var(--color-safari)" },
-    { browser: "firefox", visitors: 187, fill: "var(--color-firefox)" },
-    { browser: "edge", visitors: 173, fill: "var(--color-edge)" },
-    { browser: "other", visitors: 90, fill: "var(--color-other)" },
-]
+interface CategoryData {
+    category: string
+    totalCost: number
+    fill: string
+}
 
-const chartConfig = {
-    visitors: {
-        label: "Visitors",
-    },
-    chrome: {
-        label: "Chrome",
-        color: "hsl(var(--chart-1))",
-    },
-    safari: {
-        label: "Safari",
-        color: "hsl(var(--chart-2))",
-    },
-    firefox: {
-        label: "Firefox",
-        color: "hsl(var(--chart-3))",
-    },
-    edge: {
-        label: "Edge",
-        color: "hsl(var(--chart-4))",
-    },
-    other: {
-        label: "Other",
-        color: "hsl(var(--chart-5))",
-    },
-} satisfies ChartConfig
+export function PizzaChartTotalCostByCategory({ userId }: { userId: string }) {
+    const [chartData, setChartData] = useState<CategoryData[]>([])
+    const [isLoading, setIsLoading] = useState(true)
 
-export function PizzaChartTotalCostByCategory() {
+    const colors = useMemo(() => [
+        "hsl(var(--chart-1))",
+        "hsl(var(--chart-2))",
+        "hsl(var(--chart-3))",
+        "hsl(var(--chart-4))",
+        "hsl(var(--chart-5))",
+        "hsl(var(--chart-6))",
+        "hsl(var(--chart-7))",
+        "hsl(var(--chart-8))",
+    ], [])
+
+    useEffect(() => {
+        async function loadData() {
+            try {
+                const data = await getTotalCostByCategory(userId)
+                const dataWithFill = data.map((item, index) => ({
+                    ...item,
+                    fill: colors[index % colors.length]
+                }))
+                setChartData(dataWithFill)
+            } catch (error) {
+                console.error("Erro ao carregar dados de custo:", error)
+            } finally {
+                setIsLoading(false)
+            }
+        }
+
+        loadData()
+    }, [userId, colors])
+
+    const chartConfig = {
+        totalCost: {
+            label: "Custo Total",
+            color: "hsl(var(--chart-1))"
+        },
+        ...Object.fromEntries(
+            chartData.map((item, index) => [
+                item.category,
+                {
+                    label: item.category,
+                    color: colors[index % colors.length]
+                }
+            ])
+        )
+    } satisfies ChartConfig
+
+    if (isLoading) {
+        return (
+            <Card className="flex flex-col">
+                <CardHeader className="items-center pb-0">
+                    <CardTitle>Custo total por categoria</CardTitle>
+                    <CardDescription>Carregando...</CardDescription>
+                </CardHeader>
+            </Card>
+        )
+    }
+
+    const totalCost = chartData.reduce((sum, item) => sum + item.totalCost, 0)
+
+    const chartDataWithFill = chartData.map((item, index) => ({
+        ...item,
+        fill: colors[index % colors.length]
+    }))
+
     return (
         <Card className="flex flex-col">
             <CardHeader className="items-center pb-0">
                 <CardTitle>Custo total por categoria</CardTitle>
-                <CardDescription>January - June 2024</CardDescription>
+                <CardDescription>Custo total: {moneyFormat(totalCost)}</CardDescription>
             </CardHeader>
             <CardContent className="flex-1 pb-0">
                 <ChartContainer
@@ -66,38 +106,42 @@ export function PizzaChartTotalCostByCategory() {
                 >
                     <PieChart>
                         <ChartTooltip
-                            content={<ChartTooltipContent nameKey="visitors" hideLabel />}
-                        />
-                        <Pie
-                            data={chartData}
-                            dataKey="visitors"
-                            labelLine={false}
-                            label={({ payload, ...props }) => {
+                            content={({ payload }) => {
+                                if (!payload?.[0]?.payload) return null
+                                const { category, totalCost } = payload[0].payload
                                 return (
-                                    <text
-                                        cx={props.cx}
-                                        cy={props.cy}
-                                        x={props.x}
-                                        y={props.y}
-                                        textAnchor={props.textAnchor}
-                                        dominantBaseline={props.dominantBaseline}
-                                        fill="white"
-                                    >
-                                        {payload.visitors}
-                                    </text>
+                                    <div className="rounded-lg bg-background p-2 shadow-md">
+                                        <div className="font-medium">{category}</div>
+                                        <div>{moneyFormat(totalCost)}</div>
+                                    </div>
                                 )
                             }}
-                            nameKey="browser"
+                        />
+                        <Pie
+                            data={chartDataWithFill}
+                            dataKey="totalCost"
+                            nameKey="category"
+                            labelLine={false}
+                            label={({ percent }) => `${(percent * 100).toFixed(0)}%`}
+                            fill="fill"
                         />
                     </PieChart>
                 </ChartContainer>
             </CardContent>
             <CardFooter className="flex-col gap-2 text-sm">
-                <div className="flex items-center gap-2 font-medium leading-none">
-                    Trending up by 5.2% this month <TrendingUp className="h-4 w-4" />
+                <div className="flex flex-wrap gap-2">
+                    {chartDataWithFill.map((item, index) => (
+                        <div key={item.category} className="flex items-center gap-1">
+                            <div
+                                className="w-3 h-3 rounded-full"
+                                style={{ backgroundColor: colors[index % colors.length] }}
+                            />
+                            <span className="text-xs">{item.category}</span>
+                        </div>
+                    ))}
                 </div>
                 <div className="leading-none text-muted-foreground">
-                    Showing total visitors for the last 6 months
+                    Distribuição do custo total do inventário por categoria
                 </div>
             </CardFooter>
         </Card>
