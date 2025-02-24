@@ -15,7 +15,7 @@ export async function getStockByLocation(userId: string) {
 
     return stockByLocation.map(item => ({
         location: item.location,
-        stock: item._sum.stock || 0
+        totalStock: item._sum.stock || 0
     }))
 }
 
@@ -36,7 +36,7 @@ export async function getTotalCostByCategory(userId: string) {
     }))
 }
 
-export async function getLowStockProducts(userId: string, threshold: number = 10) {
+export async function getLowStockProducts(userId: string, threshold: number = 30) {
     const products = await db.product.findMany({
         where: {
             userId,

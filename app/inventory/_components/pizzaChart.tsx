@@ -140,9 +140,6 @@ export function PizzaChartTotalCostByCategory({ userId }: { userId: string }) {
                         </div>
                     ))}
                 </div>
-                <div className="leading-none text-muted-foreground">
-                    Distribuição do custo total do inventário por categoria
-                </div>
             </CardFooter>
         </Card>
     )
