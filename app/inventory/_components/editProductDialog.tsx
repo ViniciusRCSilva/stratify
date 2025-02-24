@@ -1,4 +1,4 @@
-import { Product } from "@prisma/client"
+import { Product, ProductTax } from "@prisma/client"
 import {
     Form,
     FormControl,
@@ -26,15 +26,23 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { updateProduct } from "@/app/_actions/product"
 import { toast } from "@/app/_hooks/use-toast"
 import { Input } from "@/app/_components/ui/input"
-import { CircleHelp, Copy, Edit, Loader2 } from "lucide-react"
+import { ArrowLeft, Banknote, CircleHelp, Edit, Loader2 } from "lucide-react"
 import { useEffect, useState } from "react"
 import { Button } from "@/app/_components/ui/button"
 import { cn } from "@/app/_lib/utils"
+import {
+    Tabs,
+    TabsContent,
+    TabsList,
+    TabsTrigger
+} from "@/app/_components/ui/tabs"
 
 interface EditProductDialogProps {
     open: boolean
     onOpenChange: (open: boolean) => void
-    product: Product
+    product: Product & {
+        productTax: ProductTax | null
+    }
 }
 
 const formSchema = z.object({
@@ -42,6 +50,11 @@ const formSchema = z.object({
     category: z.string().min(1, "Categoria do produto obrigatório"),
     cost: z.string().min(1, "Custo do produto obrigatório"),
     profitRate: z.string().min(1, "Taxa de lucro obrigatória"),
+    simpleTax: z.string().optional(),
+    icms: z.string().optional(),
+    ipi: z.string().optional(),
+    pis: z.string().optional(),
+    cofins: z.string().optional(),
     price: z.string().min(1, "Preço do produto obrigatório"),
     location: z.string().min(1, "Localização do produto obrigatório"),
     quantity: z.string().min(1, "Quantidade do produto obrigatório"),
@@ -51,6 +64,15 @@ export const EditProductDialog = ({ open, onOpenChange, product }: EditProductDi
     const [loading, setLoading] = useState(false)
     const [priceRecomended, setPriceRecomended] = useState(0)
     const [profit, setProfit] = useState(30)
+    const [profitValue, setProfitValue] = useState(0)
+    const [icms, setIcms] = useState(product.productTax?.icms || 0)
+    const [ipi, setIpi] = useState(product.productTax?.ipi || 0)
+    const [pis, setPis] = useState(product.productTax?.pis || 0)
+    const [cofins, setCofins] = useState(product.productTax?.cofins || 0)
+    const [taxValue, setTaxValue] = useState(0)
+    const [selectedTaxType, setSelectedTaxType] = useState(
+        product.productTax?.simpleTax !== null ? "simple" : "detailed"
+    )
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -58,34 +80,97 @@ export const EditProductDialog = ({ open, onOpenChange, product }: EditProductDi
             name: product.name,
             category: product.category,
             cost: product.unitCost.toString(),
-            profitRate: (((product.unitPrice - product.unitCost) / product.unitCost) * 100).toString(),
+            profitRate: (() => {
+                const simpleTax = product.productTax?.simpleTax ?? 0;
+                const detailedTax = (product.productTax?.icms ?? 0) +
+                    (product.productTax?.ipi ?? 0) +
+                    (product.productTax?.pis ?? 0) +
+                    (product.productTax?.cofins ?? 0);
+
+                const totalTax = simpleTax !== 0 ? simpleTax : detailedTax;
+
+                const priceWithoutTax = product.unitPrice / (1 + totalTax / 100);
+
+                const profitValue = priceWithoutTax - product.unitCost;
+
+                return ((profitValue / product.unitCost) * 100).toFixed(2).toString();
+            })(),
+            simpleTax: (product.productTax?.simpleTax || 0).toString(),
+            icms: (product.productTax?.icms || 0).toString(),
+            ipi: (product.productTax?.ipi || 0).toString(),
+            pis: (product.productTax?.pis || 0).toString(),
+            cofins: (product.productTax?.cofins || 0).toString(),
             price: product.unitPrice.toString(),
             location: product.location,
             quantity: product.stock.toString(),
         },
     })
 
-    // Reset form values when product changes
     useEffect(() => {
+        const simpleTax = product.productTax?.simpleTax ?? 0;
+        const detailedTax = (product.productTax?.icms ?? 0) +
+            (product.productTax?.ipi ?? 0) +
+            (product.productTax?.pis ?? 0) +
+            (product.productTax?.cofins ?? 0);
+
+        const totalTax = simpleTax !== 0 ? simpleTax : detailedTax;
+
+        const priceWithoutTax = product.unitPrice / (1 + totalTax / 100);
+
+        const profitValue = priceWithoutTax - product.unitCost;
+
+        const calculatedProfitRate = ((profitValue / product.unitCost) * 100).toFixed(2).toString();
+
         form.reset({
             name: product.name,
             category: product.category,
             cost: product.unitCost.toString(),
-            profitRate: (((product.unitPrice - product.unitCost) / product.unitCost) * 100).toString(),
+            profitRate: calculatedProfitRate,
+            simpleTax: (product.productTax?.simpleTax || 0).toString(),
+            icms: (product.productTax?.icms || 0).toString(),
+            ipi: (product.productTax?.ipi || 0).toString(),
+            pis: (product.productTax?.pis || 0).toString(),
+            cofins: (product.productTax?.cofins || 0).toString(),
             price: product.unitPrice.toString(),
             location: product.location,
             quantity: product.stock.toString(),
-        })
-    }, [product, form])
+        });
+
+        setTaxValue(product.productTax?.simpleTax || 0);
+        setIcms(product.productTax?.icms || 0);
+        setIpi(product.productTax?.ipi || 0);
+        setPis(product.productTax?.pis || 0);
+        setCofins(product.productTax?.cofins || 0);
+        setSelectedTaxType(simpleTax !== 0 ? "simple" : "detailed");
+    }, [product, form]);
 
     const cost = form.watch("cost")
     const profitRate = form.watch("profitRate")
+    const tax = form.watch("simpleTax")
 
     useEffect(() => {
-        const profitMultiplier = 1 + (Number(profitRate) / 100)
-        setPriceRecomended(Number(cost) * profitMultiplier)
-        setProfit(Number(profitRate))
-    }, [cost, profitRate])
+        let taxMultiplier = 1;
+        let totalTaxPercentage = 0;
+
+        if (selectedTaxType === "simple") {
+            totalTaxPercentage = Number(tax);
+        } else {
+            totalTaxPercentage = (icms + ipi + pis + cofins);
+        }
+
+        taxMultiplier = 1 + (totalTaxPercentage / 100);
+
+        const priceBeforeTax = Number(cost) * (1 + Number(profitRate) / 100);
+
+        const finalPrice = priceBeforeTax * taxMultiplier;
+
+        const profitValue = priceBeforeTax - Number(cost);
+
+        setTaxValue(totalTaxPercentage);
+        setPriceRecomended(finalPrice);
+        setProfit(Number(profitRate));
+        setProfitValue(profitValue);
+    }, [cost, profitRate, tax, icms, ipi, pis, cofins, selectedTaxType]);
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
@@ -97,6 +182,24 @@ export const EditProductDialog = ({ open, onOpenChange, product }: EditProductDi
                 unitPrice: Number(values.price),
                 location: values.location,
                 stock: Number(values.quantity),
+                productTax: {
+                    upsert: {
+                        create: {
+                            simpleTax: selectedTaxType === "simple" ? Number(values.simpleTax) : null,
+                            icms: selectedTaxType === "detailed" ? Number(values.icms) : null,
+                            ipi: selectedTaxType === "detailed" ? Number(values.ipi) : null,
+                            pis: selectedTaxType === "detailed" ? Number(values.pis) : null,
+                            cofins: selectedTaxType === "detailed" ? Number(values.cofins) : null,
+                        },
+                        update: {
+                            simpleTax: selectedTaxType === "simple" ? Number(values.simpleTax) : null,
+                            icms: selectedTaxType === "detailed" ? Number(values.icms) : null,
+                            ipi: selectedTaxType === "detailed" ? Number(values.ipi) : null,
+                            pis: selectedTaxType === "detailed" ? Number(values.pis) : null,
+                            cofins: selectedTaxType === "detailed" ? Number(values.cofins) : null,
+                        }
+                    }
+                }
             })
             toast({
                 variant: "warning",
@@ -131,19 +234,23 @@ export const EditProductDialog = ({ open, onOpenChange, product }: EditProductDi
         }
     }
 
-    const handleCopy = () => {
-        navigator.clipboard.writeText(priceRecomended.toFixed(2))
+    const handleInsertPriceInInput = () => {
+        form.setValue("price", priceRecomended.toFixed(2))
         toast({
-            variant: "success",
+            variant: "default",
             description: (
                 <div className="flex items-center gap-2">
-                    <div className="h-2 w-2 rounded-full bg-green-500" />
-                    <span>Preço copiado!</span>
+                    <Banknote className="h-6 w-6 text-success" />
+                    <span>Preço recomendado inserido no campo!</span>
                 </div>
             ),
-            className: "border-2 border-green-500/20 bg-green-500/10",
             duration: 5000,
         })
+    }
+
+    const cancel = () => {
+        form.reset()
+        onOpenChange(false)
     }
 
     return (
@@ -249,6 +356,191 @@ export const EditProductDialog = ({ open, onOpenChange, product }: EditProductDi
                                 />
                             </div>
 
+                            <FormItem>
+                                <FormLabel>Imposto (%)</FormLabel>
+                                <Tabs defaultValue="simple" onValueChange={(value) => setSelectedTaxType(value)}>
+                                    <TabsList className="grid w-full grid-cols-2">
+                                        <TabsTrigger value="simple">Imposto Simples</TabsTrigger>
+                                        <TabsTrigger value="detailed">Impostos Detalhados</TabsTrigger>
+                                    </TabsList>
+                                    <TabsContent value="simple" className="space-y-4">
+                                        <FormField
+                                            control={form.control}
+                                            name="simpleTax"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <div className="flex items-center gap-2">
+                                                        <FormLabel className="text-sm">Imposto Simples (%)</FormLabel>
+                                                        <TooltipProvider>
+                                                            <Tooltip>
+                                                                <TooltipTrigger className="cursor-help">
+                                                                    <CircleHelp className="h-4 w-4 text-muted-foreground" />
+                                                                </TooltipTrigger>
+                                                                <TooltipContent>
+                                                                    <p className="w-60">Percentual de imposto simples sobre o produto.</p>
+                                                                </TooltipContent>
+                                                            </Tooltip>
+                                                        </TooltipProvider>
+                                                    </div>
+                                                    <FormControl>
+                                                        <Input
+                                                            type="number"
+                                                            step="0.01"
+                                                            placeholder="0.00"
+                                                            {...field}
+                                                        />
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                    </TabsContent>
+                                    <TabsContent value="detailed" className="space-y-4">
+                                        <div className="grid gap-4 sm:grid-cols-4">
+                                            <FormField
+                                                control={form.control}
+                                                name="icms"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <div className="flex items-center gap-2">
+                                                            <FormLabel className="text-sm">ICMS (%)</FormLabel>
+                                                            <TooltipProvider>
+                                                                <Tooltip>
+                                                                    <TooltipTrigger className="cursor-help">
+                                                                        <CircleHelp className="h-4 w-4 text-muted-foreground" />
+                                                                    </TooltipTrigger>
+                                                                    <TooltipContent>
+                                                                        <p className="w-60">Imposto sobre Circulação de Mercadorias e Serviços</p>
+                                                                    </TooltipContent>
+                                                                </Tooltip>
+                                                            </TooltipProvider>
+                                                        </div>
+                                                        <FormControl>
+                                                            <Input
+                                                                type="number"
+                                                                step="0.01"
+                                                                placeholder="0.00"
+                                                                {...field}
+                                                                onChange={(e) => {
+                                                                    field.onChange(e);
+                                                                    setIcms(Number(e.target.value));
+                                                                }}
+                                                            />
+                                                        </FormControl>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+
+                                            <FormField
+                                                control={form.control}
+                                                name="ipi"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <div className="flex items-center gap-2">
+                                                            <FormLabel className="text-sm">IPI (%)</FormLabel>
+                                                            <TooltipProvider>
+                                                                <Tooltip>
+                                                                    <TooltipTrigger className="cursor-help">
+                                                                        <CircleHelp className="h-4 w-4 text-muted-foreground" />
+                                                                    </TooltipTrigger>
+                                                                    <TooltipContent>
+                                                                        <p className="w-60">Imposto sobre Produtos Industrializados</p>
+                                                                    </TooltipContent>
+                                                                </Tooltip>
+                                                            </TooltipProvider>
+                                                        </div>
+                                                        <FormControl>
+                                                            <Input
+                                                                type="number"
+                                                                step="0.01"
+                                                                placeholder="0.00"
+                                                                {...field}
+                                                                onChange={(e) => {
+                                                                    field.onChange(e);
+                                                                    setIpi(Number(e.target.value));
+                                                                }}
+                                                            />
+                                                        </FormControl>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+
+                                            <FormField
+                                                control={form.control}
+                                                name="pis"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <div className="flex items-center gap-2">
+                                                            <FormLabel className="text-sm">PIS (%)</FormLabel>
+                                                            <TooltipProvider>
+                                                                <Tooltip>
+                                                                    <TooltipTrigger className="cursor-help">
+                                                                        <CircleHelp className="h-4 w-4 text-muted-foreground" />
+                                                                    </TooltipTrigger>
+                                                                    <TooltipContent>
+                                                                        <p className="w-60">Programa de Integração Social</p>
+                                                                    </TooltipContent>
+                                                                </Tooltip>
+                                                            </TooltipProvider>
+                                                        </div>
+                                                        <FormControl>
+                                                            <Input
+                                                                type="number"
+                                                                step="0.01"
+                                                                placeholder="0.00"
+                                                                {...field}
+                                                                onChange={(e) => {
+                                                                    field.onChange(e);
+                                                                    setPis(Number(e.target.value));
+                                                                }}
+                                                            />
+                                                        </FormControl>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+
+                                            <FormField
+                                                control={form.control}
+                                                name="cofins"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <div className="flex items-center gap-2">
+                                                            <FormLabel className="text-sm">COFINS (%)</FormLabel>
+                                                            <TooltipProvider>
+                                                                <Tooltip>
+                                                                    <TooltipTrigger className="cursor-help">
+                                                                        <CircleHelp className="h-4 w-4 text-muted-foreground" />
+                                                                    </TooltipTrigger>
+                                                                    <TooltipContent>
+                                                                        <p className="w-60">Contribuição para o Financiamento da Seguridade Social</p>
+                                                                    </TooltipContent>
+                                                                </Tooltip>
+                                                            </TooltipProvider>
+                                                        </div>
+                                                        <FormControl>
+                                                            <Input
+                                                                type="number"
+                                                                step="0.01"
+                                                                placeholder="0.00"
+                                                                {...field}
+                                                                onChange={(e) => {
+                                                                    field.onChange(e);
+                                                                    setCofins(Number(e.target.value));
+                                                                }}
+                                                            />
+                                                        </FormControl>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                        </div>
+                                    </TabsContent>
+                                </Tabs>
+                            </FormItem>
+
                             <FormField
                                 control={form.control}
                                 name="price"
@@ -256,23 +548,21 @@ export const EditProductDialog = ({ open, onOpenChange, product }: EditProductDi
                                     <FormItem>
                                         <div className="flex flex-col gap-1">
                                             <FormLabel>Preço de Venda (R$)</FormLabel>
-                                            <div className="flex flex-col lg:grid lg:grid-cols-[4fr_1fr] gap-2">
-                                                <div className="flex items-center text-muted-foreground text-sm bg-muted/50 p-2 rounded-md">
-                                                    <div>
-                                                        Com <span className="font-medium text-foreground">{profit}%</span> de lucro,
-                                                        o preço será <span className="font-medium text-foreground">R$ {priceRecomended.toFixed(2)}</span>,
-                                                        gerando <span className="font-medium text-foreground">R$ {(priceRecomended - Number(cost)).toFixed(2)}</span> de lucro.
-                                                    </div>
+                                            <div className="flex items-center text-muted-foreground text-sm bg-muted/50 p-2 rounded-md">
+                                                <div>
+                                                    Preço sugerido: <span className='font-medium text-foreground'>R$ {priceRecomended.toFixed(2)}</span> com <span className='font-medium text-foreground'>{taxValue}%</span> de impostos e <span className='font-medium text-foreground'>{profit}%</span> de margem de lucro. Lucro final: <span className='font-medium text-foreground'>R$ {profitValue.toFixed(2)}</span>.
                                                 </div>
-                                                <Button type="button" className="flex items-center gap-2" variant="outline" onClick={handleCopy}>
-                                                    <p className="text-sm">Copiar preço</p>
-                                                    <Copy className="h-4 w-4" />
-                                                </Button>
                                             </div>
                                         </div>
-                                        <FormControl>
-                                            <Input type="number" step="0.01" placeholder="0.00" {...field} />
-                                        </FormControl>
+                                        <div className="flex flex-col lg:grid lg:grid-cols-[4fr_1fr] gap-2">
+                                            <FormControl>
+                                                <Input type="number" step="0.01" placeholder="0.00" {...field} />
+                                            </FormControl>
+                                            <Button type="button" className="flex items-center gap-2" variant="outline" onClick={handleInsertPriceInInput}>
+                                                <ArrowLeft className="h-4 w-4" />
+                                                <p className="text-sm">Inserir preço</p>
+                                            </Button>
+                                        </div>
                                         <FormMessage />
                                     </FormItem>
                                 )}
@@ -313,7 +603,7 @@ export const EditProductDialog = ({ open, onOpenChange, product }: EditProductDi
                             <Button
                                 type="button"
                                 variant="outline"
-                                onClick={() => onOpenChange(false)}
+                                onClick={cancel}
                                 disabled={loading}
                                 className="sm:w-32"
                             >

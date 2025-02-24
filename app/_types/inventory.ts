@@ -10,6 +10,15 @@ export interface Inventory {
     updatedAt: Date;
     stockStatus: "destructive" | "warning" | "success";
     userId: string;
+    productTax: {
+        id: string;
+        simpleTax: number | null;
+        icms: number | null;
+        ipi: number | null;
+        pis: number | null;
+        cofins: number | null;
+        productId: string;
+    } | null;
 }
 
 export interface InventoryForCard extends Inventory {

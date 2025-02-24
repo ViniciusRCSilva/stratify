@@ -39,7 +39,7 @@ import {
 import { Input } from "@/app/_components/ui/input"
 import { Button } from "@/app/_components/ui/button"
 import { Card } from "@/app/_components/ui/card"
-import { X } from "lucide-react"
+import { Filter, FilterX } from "lucide-react"
 import { useState } from "react"
 import { Inventory } from "@/app/_types/inventory"
 
@@ -86,7 +86,10 @@ export function DataTableInventory({
                     <AccordionItem className="border-none" value="item-1">
                         <div className="flex items-center justify-between">
                             <AccordionTrigger>
-                                <h2 className="text-lg font-semibold">Filtros</h2>
+                                <div className="flex items-center gap-2">
+                                    <Filter className="h-4 w-4" />
+                                    <h2 className="text-lg font-semibold">Filtros</h2>
+                                </div>
                             </AccordionTrigger>
                             {hasActiveFilters && (
                                 <Button
@@ -95,7 +98,7 @@ export function DataTableInventory({
                                     onClick={clearFilters}
                                     className="flex items-center gap-2 text-destructive"
                                 >
-                                    <X className="h-4 w-4" />
+                                    <FilterX className="h-4 w-4" />
                                     Limpar filtros
                                 </Button>
                             )}
@@ -171,21 +174,25 @@ export function DataTableInventory({
                                 </div>
 
                                 <div className="flex flex-col gap-2">
-                                    <label className="text-sm font-medium text-muted-foreground">Status do Estoque</label>
+                                    <label className="text-sm font-medium text-muted-foreground">Status do estoque</label>
                                     <Select
                                         value={(table.getColumn("stockStatus")?.getFilterValue() as string) ?? "all"}
-                                        onValueChange={(value) =>
-                                            table.getColumn("stockStatus")?.setFilterValue(value)
-                                        }
+                                        onValueChange={(value) => {
+                                            if (value === "all") {
+                                                table.getColumn("stockStatus")?.setFilterValue("")
+                                            } else {
+                                                table.getColumn("stockStatus")?.setFilterValue(value)
+                                            }
+                                        }}
                                     >
                                         <SelectTrigger className="bg-background">
                                             <SelectValue placeholder="Selecionar status" />
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="all">Todos os status</SelectItem>
-                                            <SelectItem value="out">Fora de estoque</SelectItem>
-                                            <SelectItem value="low">Estoque baixo</SelectItem>
-                                            <SelectItem value="in">Em estoque</SelectItem>
+                                            <SelectItem value="destructive">Sem estoque</SelectItem>
+                                            <SelectItem value="warning">Estoque baixo</SelectItem>
+                                            <SelectItem value="success">Em estoque</SelectItem>
                                         </SelectContent>
                                     </Select>
                                 </div>

@@ -15,6 +15,9 @@ export const getAllProducts = async (userId?: string) => {
     return db.product.findMany({
         where: {
             userId: userId
+        },
+        include: {
+            productTax: true
         }
     });
 };
@@ -26,6 +29,9 @@ export const getProductById = async (id: string, userId?: string) => {
             id,
             userId
         },
+        include: {
+            productTax: true
+        }
     });
 };
 
@@ -104,5 +110,11 @@ export const updateProduct = async (
 /* Deleta um produto pelo ID */
 export const deleteProduct = async (id: string, userId?: string) => {
     revalidatePath("/inventory")
-    return db.product.delete({ where: { id, userId } });
+    await db.productTax.deleteMany({
+        where: { productId: id }
+    });
+    return db.product.delete({
+        where: { id, userId },
+        include: { productTax: true }
+    });
 };

@@ -14,7 +14,7 @@ export const InventoryTable = async ({ id }: User) => {
             ? "destructive"
             : product.stock <= 30
                 ? "warning"
-                : "success"
+                : "success",
     }));
 
     return (
