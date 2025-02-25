@@ -133,9 +133,13 @@ export function DataTableInventory({
                                     <label className="text-sm font-medium text-muted-foreground">Categoria</label>
                                     <Select
                                         value={(table.getColumn("category")?.getFilterValue() as string) ?? "all"}
-                                        onValueChange={(value) =>
-                                            table.getColumn("category")?.setFilterValue(value)
-                                        }
+                                        onValueChange={(value) => {
+                                            if (value === "all") {
+                                                table.getColumn("category")?.setFilterValue("")
+                                            } else {
+                                                table.getColumn("category")?.setFilterValue(value)
+                                            }
+                                        }}
                                     >
                                         <SelectTrigger className="bg-background">
                                             <SelectValue placeholder="Selecionar categoria" />
@@ -155,9 +159,13 @@ export function DataTableInventory({
                                     <label className="text-sm font-medium text-muted-foreground">Localização</label>
                                     <Select
                                         value={(table.getColumn("location")?.getFilterValue() as string) ?? "all"}
-                                        onValueChange={(value) =>
-                                            table.getColumn("location")?.setFilterValue(value)
-                                        }
+                                        onValueChange={(value) => {
+                                            if (value === "all") {
+                                                table.getColumn("location")?.setFilterValue("")
+                                            } else {
+                                                table.getColumn("location")?.setFilterValue(value)
+                                            }
+                                        }}
                                     >
                                         <SelectTrigger className="bg-background">
                                             <SelectValue placeholder="Selecionar localização" />
