@@ -18,6 +18,9 @@ export const getAllProducts = async (userId?: string) => {
         },
         include: {
             productTax: true
+        },
+        orderBy: {
+            updatedAt: 'desc'
         }
     });
 };

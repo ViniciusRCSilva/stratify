@@ -6,7 +6,7 @@ import { User } from "@/app/_types/user";
 import { AddProductButton } from "./addProductButton";
 
 export const InventoryTable = async ({ id }: User) => {
-    const products = (await getAllProducts(id)).reverse();
+    const products = await getAllProducts(id);
 
     const data: Inventory[] = products.map((product) => ({
         ...product,
