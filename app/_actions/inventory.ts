@@ -19,10 +19,11 @@ export async function getStockByLocation(userId: string) {
     }))
 }
 
-export async function getTotalCostByCategory(userId: string) {
+export async function getCostByCategory(userId: string) {
     const costByCategory = await db.product.groupBy({
         by: ['category'],
         _sum: {
+            stock: true,
             unitCost: true
         },
         where: {
@@ -32,7 +33,7 @@ export async function getTotalCostByCategory(userId: string) {
 
     return costByCategory.map(item => ({
         category: item.category,
-        totalCost: item._sum.unitCost || 0
+        totalCost: (item._sum.unitCost || 0) * (item._sum.stock || 0),
     }))
 }
 
