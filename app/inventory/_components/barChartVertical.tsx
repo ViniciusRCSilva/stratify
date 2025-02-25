@@ -16,6 +16,7 @@ import {
     ChartTooltip,
 } from "@/app/_components/ui/chart"
 import { getStockByLocation } from "@/app/_actions/inventory"
+import { Loader2 } from "lucide-react"
 
 interface LocationData {
     location: string
@@ -62,7 +63,12 @@ export function BarChartInventoryStockByLocation({ userId }: { userId: string })
             <Card className="flex flex-col">
                 <CardHeader className="pb-0">
                     <CardTitle>Estoque por localização</CardTitle>
-                    <CardDescription>Carregando...</CardDescription>
+                    <CardDescription>
+                        <div className="flex items-center gap-2 my-10">
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                            Carregando...
+                        </div>
+                    </CardDescription>
                 </CardHeader>
             </Card>
         )

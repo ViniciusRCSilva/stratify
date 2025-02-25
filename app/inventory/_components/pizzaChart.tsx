@@ -18,6 +18,7 @@ import {
 } from "@/app/_components/ui/chart"
 import { getTotalCostByCategory } from "@/app/_actions/inventory"
 import { moneyFormat } from "@/app/_helper/moneyFormat"
+import { Loader2 } from "lucide-react"
 
 interface CategoryData {
     category: string
@@ -80,7 +81,12 @@ export function PizzaChartTotalCostByCategory({ userId }: { userId: string }) {
             <Card className="flex flex-col">
                 <CardHeader className="items-center pb-0">
                     <CardTitle>Custo total por categoria</CardTitle>
-                    <CardDescription>Carregando...</CardDescription>
+                    <CardDescription>
+                        <div className="flex items-center gap-2 my-10">
+                            <Loader2 className="h-4 w-4 animate-spin" />
+                            Carregando...
+                        </div>
+                    </CardDescription>
                 </CardHeader>
             </Card>
         )
